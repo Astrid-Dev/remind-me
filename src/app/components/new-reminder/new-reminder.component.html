@@ -1,0 +1,120 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/reminders"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Nouveau rappel</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" mode="ios">
+    <div class="ion-text-center ion-margin-bottom" *ngIf="isRecording">
+      <ion-text style="font-style: italic; font-weight: bold">{{recordDurationDisplay}}</ion-text>
+    </div>
+    <ion-fab-button [color]="isRecording ? 'medium': 'success'" #recordButton>
+      <ion-icon name="mic-sharp"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <form [formGroup]="newReminderForm">
+    <ion-list class="ion-no-padding">
+      <ion-item lines="none" class="ion-no-margin ion-no-padding ion-margin-bottom">
+        <ion-label position="stacked">Titre <span class="required">*</span></ion-label>
+        <ion-input formControlName="title" mode="ios" type="text" placeholder="Titre du rappel"></ion-input>
+        <ion-note slot="error" *ngIf="formIsSubmitted && validationHasFailedFor('title', 'required')">
+          Le titre est requis !
+        </ion-note>
+      </ion-item>
+      <ion-item lines="none" class="ion-no-margin ion-no-padding ion-margin-bottom">
+        <ion-label position="stacked">Description <span class="required">*</span></ion-label>
+        <ion-textarea formControlName="description" *ngIf="!recordedFileBase64" mode="ios"  [rows]="6" [autoGrow]="true" placeholder="Insérez la description de votre rappel ici ou maintenez le boutton du micro pour faire un enregistrement">
+
+        </ion-textarea>
+        <div class="player ion-padding" *ngIf="recordedFileBase64">
+          <ion-button mode="ios" fill="clear" (click)="startPlayingRecordedAudio()" *ngIf="!isPlayingAudio">
+            <ion-icon name="play-sharp"></ion-icon>
+          </ion-button>
+          <ion-button mode="ios" fill="clear" (click)="pausePlayingRecordedAudio()" *ngIf="isPlayingAudio">
+            <ion-icon name="pause-sharp"></ion-icon>
+          </ion-button>
+          <div class="minuter">
+            <div class="played" [style]="'width: ' + playDurationPercentage + '%'"></div>
+          </div>
+          <div class="played-time">
+            <ion-text color="primary">{{playDurationDisplay}}</ion-text>
+          </div>
+          <ion-button mode="ios" fill="clear" color="danger" (click)="deleteRecordedFile()">
+            <ion-icon name="close-sharp"></ion-icon>
+          </ion-button>
+        </div>
+        <ion-note slot="error" *ngIf="formIsSubmitted && (!recordedFileBase64 && validationHasFailedFor('description', 'required'))">
+          La description est requise !
+        </ion-note>
+      </ion-item>
+
+      <ion-item lines="none" class="ion-no-margin ion-no-padding ion-margin-bottom">
+        <ion-label position="stacked">Date <span class="required">*</span></ion-label>
+        <ion-datetime-button mode="ios" datetime="datetime"></ion-datetime-button>
+
+        <ion-modal [keepContentsMounted]="true" mode="ios">
+          <ng-template>
+            <ion-datetime color="danger" [preferWheel]="true"
+                          [min]="minDate"
+                          formControlName="date"
+                          mode="ios" id="datetime"></ion-datetime>
+          </ng-template>
+        </ion-modal>
+
+        <ion-note slot="error" *ngIf="formIsSubmitted && validationHasFailedFor('date', 'required')">
+          La date de rappel est requise !
+        </ion-note>
+      </ion-item>
+      <ion-item lines="none" class="ion-no-margin ion-no-padding ion-margin-bottom">
+        <ion-label position="stacked">Heure de rappel <span class="required">*</span></ion-label>
+        <ion-select  formControlName="reminderTime" mode="ios" placeholder="A quelle heure vous rappeler ?">
+          <ion-select-option [value]="0">Instantané</ion-select-option>
+          <ion-select-option [value]="60">1 Heure</ion-select-option>
+          <ion-select-option [value]="45">45 minutes</ion-select-option>
+          <ion-select-option [value]="30">30 minutes</ion-select-option>
+          <ion-select-option [value]="15">15 minutes</ion-select-option>
+        </ion-select>
+
+        <ion-note slot="error" *ngIf="formIsSubmitted && validationHasFailedFor('reminderTime', 'required')">
+          L'heure de rappel est requise !
+        </ion-note>
+      </ion-item>
+      <ion-item lines="none" class="ion-no-margin ion-no-padding ion-margin-bottom">
+        <ion-label position="stacked">Priorité</ion-label>
+        <div class="priorities">
+          <ion-button *ngFor="let priority of priorities; index as i"
+                      [class.current]="priority.isChecked"
+                      (click)="onSelectPriority(i)"
+                      mode="ios" shape="round"
+                      [color]="priority.isChecked ? priority.color : 'primary'">
+            {{priority.label}}
+          </ion-button>
+        </div>
+      </ion-item>
+      <ion-item lines="none" class="ion-no-margin ion-no-padding">
+        <ion-label position="stacked">Catégories</ion-label>
+        <div class="categories">
+          <ion-button *ngFor="let category of categories"
+                      (click)="onToggleCategory(category.value)"
+                      mode="ios" shape="round"
+                      [fill]="category.isChecked ? 'solid': 'outline'"
+                      [color]="category.isChecked ? category.color: 'medium'">
+            {{category.label}}
+          </ion-button>
+        </div>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button (click)="onFormSubmit()" *ngIf="!isProcessing && !isRecording" mode="ios" expand="block" shape="round">Créer le rappel</ion-button>
+    <ion-button *ngIf="isProcessing" [disabled]="true" mode="ios" expand="block" shape="round">
+      <ion-spinner mode="ios"></ion-spinner>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

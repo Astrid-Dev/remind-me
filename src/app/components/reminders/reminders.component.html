@@ -1,0 +1,181 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="search-sharp"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon name="notifications-sharp"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+
+  <div class="states-choices">
+    <ion-button (click)="onStateChange('coming')" mode="ios" fill="clear" [color]="selectedState === 'coming' ? 'primary' : 'medium'">À venir</ion-button>
+    <ion-button (click)="onStateChange('read')" mode="ios" fill="clear" [color]="selectedState === 'read' ? 'primary' : 'medium'">Lus</ion-button>
+  </div>
+
+  <div class="group-by-block ion-text-end">
+    <ion-button id="group-by-button" size="small" mode="ios" fill="clear">
+      Regrouper par&nbsp;
+      <ion-icon name="chevron-down-outline"></ion-icon>
+    </ion-button>
+  </div>
+
+  <ion-list>
+
+<!--    <ion-item-group>-->
+<!--      <ion-item-divider mode="md" lines="none">-->
+<!--        <ion-label>-->
+<!--          Section A-->
+<!--        </ion-label>-->
+<!--      </ion-item-divider>-->
+
+<!--      <ion-item-sliding class="ion-margin-bottom">-->
+
+<!--        <ion-item lines="none" class="ion-no-padding ion-no-margin" mode="ios">-->
+<!--          <div class="reminder-item ion-padding ion-activatable ion-ripple-parent" id="reminder-details-button">-->
+<!--            <div class="priority high-priority"></div>-->
+<!--            <div class="details ion-margin-start">-->
+<!--              <ion-text>Reminder 1</ion-text>-->
+<!--              <ion-note>Aujourd'hui</ion-note>-->
+<!--            </div>-->
+<!--            <div class="tags">-->
+<!--              <ion-badge color="warning" class="tag-item" mode="ios">&nbsp;</ion-badge>-->
+<!--              <ion-badge color="tertiary" class="tag-item">&nbsp;</ion-badge>-->
+<!--              <ion-badge color="secondary" class="tag-item">&nbsp;</ion-badge>-->
+<!--            </div>-->
+<!--            <ion-ripple-effect></ion-ripple-effect>-->
+<!--          </div>-->
+<!--        </ion-item>-->
+
+<!--        <ion-item-options side="end">-->
+<!--          <ion-item-option color="danger">-->
+<!--            <ion-icon slot="icon-only" name="trash"></ion-icon>-->
+<!--          </ion-item-option>-->
+<!--        </ion-item-options>-->
+<!--      </ion-item-sliding>-->
+
+<!--      <ion-item-sliding  class="ion-margin-bottom">-->
+
+<!--        <ion-item lines="none" class="ion-no-padding ion-no-margin" mode="ios">-->
+<!--          <div class="reminder-item ion-padding">-->
+<!--            <div class="priority medium-priority"></div>-->
+<!--            <div class="details ion-margin-start">-->
+<!--              <ion-text>Reminder 1</ion-text>-->
+<!--              <ion-note>Aujourd'hui</ion-note>-->
+<!--            </div>-->
+<!--            <div class="tags">-->
+<!--              <ion-badge color="warning" class="tag-item">&nbsp;</ion-badge>-->
+<!--              <ion-badge color="tertiary" class="tag-item">&nbsp;</ion-badge>-->
+<!--              <ion-badge color="secondary" class="tag-item">&nbsp;</ion-badge>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </ion-item>-->
+
+<!--        <ion-item-options side="end">-->
+<!--          <ion-item-option color="danger">-->
+<!--            <ion-icon slot="icon-only" name="trash"></ion-icon>-->
+<!--          </ion-item-option>-->
+<!--        </ion-item-options>-->
+<!--      </ion-item-sliding>-->
+
+<!--      <ion-item-sliding class="ion-margin-bottom">-->
+
+<!--        <ion-item lines="none" class="ion-no-margin ion-no-padding" mode="ios">-->
+<!--          <div class="reminder-item ion-padding">-->
+<!--            <div class="priority low-priority"></div>-->
+<!--            <div class="details ion-margin-start">-->
+<!--              <ion-text>Reminder 1</ion-text>-->
+<!--              <ion-note>Aujourd'hui</ion-note>-->
+<!--            </div>-->
+<!--            <div class="tags">-->
+<!--              <ion-badge color="warning" class="tag-item">&nbsp;</ion-badge>-->
+<!--              <ion-badge color="tertiary" class="tag-item">&nbsp;</ion-badge>-->
+<!--              <ion-badge color="secondary" class="tag-item">&nbsp;</ion-badge>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </ion-item>-->
+
+<!--        <ion-item-options side="end">-->
+<!--          <ion-item-option color="danger">-->
+<!--            <ion-icon slot="icon-only" name="trash"></ion-icon>-->
+<!--          </ion-item-option>-->
+<!--        </ion-item-options>-->
+<!--      </ion-item-sliding>-->
+<!--    </ion-item-group>-->
+
+    <ion-item-group *ngFor="let group of remindersGroups">
+      <ion-item-divider mode="md" lines="none">
+        <ion-label>
+          {{group.label}}
+        </ion-label>
+      </ion-item-divider>
+
+      <ion-item-sliding class="ion-margin-bottom" *ngFor="let reminder of group.reminders">
+
+        <ion-item lines="none" class="ion-no-padding ion-no-margin" mode="ios">
+          <div class="reminder-item ion-padding ion-activatable ion-ripple-parent" (click)="viewReminderDetails(reminder)">
+            <div [className]="'priority ' + getPriorityClassName(reminder.priority)"></div>
+            <div class="details ion-margin-start">
+              <ion-text>{{reminder.title}}</ion-text>
+              <ion-note>{{getReminderHour(reminder.date)}}</ion-note>
+            </div>
+            <div class="tags">
+              <ion-badge *ngFor="let category of reminder.categories" [color]="getCategoryColor(category)" class="tag-item" mode="ios">&nbsp;</ion-badge>
+              </div>
+            <ion-ripple-effect></ion-ripple-effect>
+          </div>
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-item-option color="danger">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+
+    </ion-item-group>
+
+  </ion-list>
+</ion-content>
+
+<app-reminder-details [reminder]="selectedReminder" [isOpen]="reminderDetailsModalIsOpen" (onClose)="reminderDetailsModalIsOpen = false;"></app-reminder-details>
+
+
+<ion-modal mode="ios" #modal trigger=".group-by-button">
+  <ng-template>
+    <ion-content>
+      <ion-toolbar>
+        <ion-buttons slot="end">
+          <ion-button (click)="modal.dismiss()">
+            <ion-icon size="large" name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+      <ion-list class="group-by-list">
+        <ion-radio-group [(ngModel)]="selectedGroupBy" (ngModelChange)="setRemindersGroups()">
+          <ion-item lines="none">
+            <ion-label>Date</ion-label>
+            <ion-radio mode="md" slot="start" value="date"></ion-radio>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>Priorité</ion-label>
+            <ion-radio mode="md" slot="start" value="priority"></ion-radio>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>Catégorie</ion-label>
+            <ion-radio mode="md" slot="start" value="category"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-modal>

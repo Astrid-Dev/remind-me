@@ -1,0 +1,47 @@
+ion-input, ion-textarea, ion-select, ion-datetime-button{
+  border: 2px solid var(--ion-color-medium);
+  border-radius: 10px;
+  padding-left: 8px !important;
+  width: 100%;
+}
+
+.priorities, .categories{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  height: 90px;
+  flex-wrap: wrap;
+
+  & ion-button{
+    margin-right: 10px;
+    height: 36px;
+    font-weight: lighter;
+
+    &.current{
+      pointer-events: none;
+    }
+  }
+}
+
+ion-item{
+  &>ion-label{
+    font-size: 1.2em;
+    margin-bottom: 10px;
+
+    span.required{
+      color: var(--ion-color-danger);
+      font-size: x-large;
+    }
+  }
+}
+
+.priorities{
+  align-items: start;
+  height: 45px;
+}
+
+.player {
+  border: 2px solid var(--ion-color-medium);
+  border-radius: 10px;
+}

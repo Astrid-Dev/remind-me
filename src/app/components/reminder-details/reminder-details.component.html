@@ -1,0 +1,64 @@
+<ion-modal [isOpen]="isOpen" mode="ios" #modal (didDismiss)="onModalClose()">
+  <ng-template>
+    <ion-content>
+      <ion-toolbar>
+        <ion-title>Détails <ion-icon name="create-outline"></ion-icon></ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="modal.dismiss()">
+            <ion-icon size="large" name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+      <ion-list>
+        <ion-item lines="none" class="ion-margin-vertical">
+          <div class="infos">
+            <ion-label>Titre</ion-label>
+            <ion-text>{{reminder.title}}</ion-text>
+          </div>
+        </ion-item>
+        <ion-item lines="none">
+          <div class="infos">
+            <ion-label>Description</ion-label>
+            <ion-text *ngIf="!reminder.isARecord">{{reminder.description}}</ion-text>
+            <div class="player ion-padding" *ngIf="reminder?.isARecord">
+              <ion-button mode="ios" fill="clear" (click)="startPlayingDescriptionAudio()" *ngIf="!isPlayingAudio">
+                <ion-icon name="play-sharp"></ion-icon>
+              </ion-button>
+              <ion-button mode="ios" fill="clear" (click)="pausePlayingDescriptionAudio()" *ngIf="isPlayingAudio">
+                <ion-icon name="pause-sharp"></ion-icon>
+              </ion-button>
+              <div class="minuter">
+                <div class="played" [style]="'width: ' + playDurationPercentage + '%'"></div>
+              </div>
+              <div class="played-time">
+                <ion-text color="primary">{{playDurationDisplay}}</ion-text>
+              </div>
+            </div>
+          </div>
+        </ion-item>
+        <ion-item lines="none" class="ion-margin-vertical">
+          <div class="infos">
+            <ion-label>Priorité</ion-label>
+            <p>
+              <ion-button class="no-event" shape="round" [color]="getPriorityColor(reminder.priority)">{{getPriorityLabel(reminder.priority)}}</ion-button>
+            </p>
+          </div>
+        </ion-item>
+        <ion-item lines="none" class="ion-margin-vertical">
+          <div class="infos">
+            <ion-label>Catégories</ion-label>
+            <p>
+              <ion-button class="no-event" shape="round" [color]="getCategoryColor(category)" *ngFor="let category of reminder.categories">{{getCategoryLabel(category)}}</ion-button>
+            </p>
+          </div>
+        </ion-item>
+        <ion-item lines="none" class="ion-margin-vertical">
+          <div class="infos">
+            <ion-label>Heure de rappel</ion-label>
+            <ion-text>{{reminder.reminderTime === 0 ? 'Instantané' : ((reminder.reminderTime === 60 ? '1 Heure' : (reminder.reminderTime + ' minutes')) + ' avant')}}</ion-text>
+          </div>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-modal>

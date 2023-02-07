@@ -1,0 +1,68 @@
+header{
+  height: 20%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h1{
+    font-weight: bold;
+  }
+}
+
+.content{
+  height: 78%;
+  width: 100%;
+  position: fixed;
+  z-index: 10;
+  top: 15%;
+  overflow: auto;
+
+  border-radius: 25px;
+  background: var(--ion-color-light);
+}
+
+footer{
+  width: 100%;
+  height: 10%;
+  position: fixed;
+  bottom: 0;
+  padding-top: 15px;
+
+  &, & div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  div {
+    span{
+      margin-right: 5px;
+      color: var(--ion-color-medium);
+    }
+  }
+}
+
+.others-options div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  ion-text{
+    opacity: 0.6;
+  }
+}
+
+.submit-button{
+  margin-top: 3em;
+  margin-bottom: 1.5em;
+}
+
+ion-item ion-buttons{
+  height: 100%;
+}
+
+h1, a{
+  color: var(--ion-color-light);
+  text-decoration: none;
+}

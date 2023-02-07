@@ -1,0 +1,72 @@
+<ion-content>
+
+  <header class="header bg-primary">
+    <h1>Connexion</h1>
+  </header>
+  <div class="content ion-padding">
+    <ion-title color="primary font-bold">Content de vous revoir !</ion-title>
+    <form [formGroup]="loginForm" (ngSubmit)="onFormSubmit()">
+      <ion-item mode="ios" color="light">
+        <ion-label mode="ios" position="floating">Email</ion-label>
+        <ion-input formControlName="email" type="email" placeholder="Votre adresse e-mail"></ion-input>
+
+        <ion-note slot="error" *ngIf="formIsSubmitted && validationHasFailedFor('email', 'required')">
+          L'adresse email est requise !
+        </ion-note>
+        <ion-note slot="error" *ngIf="formIsSubmitted && validationHasFailedFor('email', 'email')">
+          L'adresse email est invalide !
+        </ion-note>
+        <ion-note slot="error" *ngIf="formIsSubmitted && validationHasFailedFor('email', 'maxlength')">
+          L'adresse email doit avoir au plus 100 caractères !
+        </ion-note>
+      </ion-item>
+
+      <ion-item mode="ios" color="light">
+        <ion-label mode="ios" position="floating">Mot de passe</ion-label>
+        <ion-input formControlName="password" [type]="passwordFieldType" placeholder="votre mot de passe"></ion-input>
+        <ion-buttons slot="end" position="bottom">
+          <ion-button style="margin-top: 16px" (click)="changePasswordFieldType()" mode="ios" fill="clear" >
+            <ion-icon [name]="passwordFieldType === 'password' ? 'eye-outline' : 'eye-off-outline'"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+
+        <ion-note slot="error" *ngIf="formIsSubmitted && validationHasFailedFor('password', 'required')">
+          Le mot de passe est requis !
+        </ion-note>
+        <ion-note slot="error" *ngIf="formIsSubmitted && validationHasFailedFor('password', 'minlength')">
+          Le mot de passe doit avoir au moins 6 caractères !
+        </ion-note>
+        <ion-note slot="error" *ngIf="formIsSubmitted && validationHasFailedFor('password', 'maxlength')">
+          Le mot de passe doit avoir au plus 20 caractères !
+        </ion-note>
+      </ion-item>
+
+      <ion-button *ngIf="!isProcessing" class="submit-button" type="submit" mode="ios" expand="block" shape="round">Se connecter</ion-button>
+      <ion-button *ngIf="isProcessing" [disabled]="true" class="submit-button" mode="ios" expand="block" shape="round">
+        <ion-spinner mode="ios"></ion-spinner>
+      </ion-button>
+
+      <div class="ion-margin-top others-options">
+        <div>
+          <ion-text>Ou se connecter avec </ion-text>
+          <ion-button (click)="loginWithGoogle()" mode="ios" fill="clear">
+            <ion-icon size="large" src="assets/images/icons8-google.svg"></ion-icon>
+          </ion-button>
+          <ion-button (click)="loginWithFacebook()" mode="ios" fill="clear">
+            <ion-icon size="large" src="assets/images/icons8-facebook.svg"></ion-icon>
+          </ion-button>
+          <ion-button (click)="loginWithTwitter()" mode="ios" fill="clear">
+            <ion-icon size="large" src="assets/images/icons8-twitter.svg"></ion-icon>
+          </ion-button>
+        </div>
+
+      </div>
+    </form>
+  </div>
+  <footer class="footer bg-primary">
+    <div>
+      <span>Vous n'avez pas de compte ?</span> <a routerLink="/register"> Inscrivez-vous !</a>
+    </div>
+  </footer>
+
+</ion-content>

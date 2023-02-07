@@ -1,0 +1,40 @@
+<ion-content class="ion-padding ion-margin-vertical">
+  <div class="ion-text-end ion-margin-top">
+    <span *ngIf="!isLastSlide" class="ion-activatable ripple-parent skip" (click)="skip()">
+      Suivant
+      <ion-ripple-effect></ion-ripple-effect>
+    </span>
+  </div>
+  <div id="test"></div>
+  <swiper (slideChange)="onSlideChange($event)" #swiperRef [pagination]="true" class="mySwiper">
+    <ng-template swiperSlide>
+      <div class="illustration-container">
+
+      </div>
+      <div class="description-container">
+        <h3 class="description-title text-primary">Une petite description</h3>
+        <p class="description text-primary">Une petite description afndaofn df dosfnmsd dpsfmsdfd</p>
+      </div>
+    </ng-template>
+    <ng-template swiperSlide>
+      <div class="illustration-container">
+
+      </div>
+      <div class="description-container">
+        <h3 class="description-title text-primary">Une petite description</h3>
+        <p class="description text-primary">Une petite description afndaofn df dosfnmsd dpsfmsdfd</p>
+      </div>
+    </ng-template>
+    <ng-template swiperSlide>
+      <div class="illustration-container">
+
+      </div>
+      <div class="description-container">
+        <h3 class="description-title text-primary">Une petite description</h3>
+        <p class="description text-primary">Une petite description afndaofn df dosfnmsd dpsfmsdfd</p>
+      </div>
+    </ng-template>
+  </swiper>
+
+  <ion-button class="ion-margin-top" mode="ios" shape="round" *ngIf="isLastSlide" expand="block">Commencer</ion-button>
+</ion-content>

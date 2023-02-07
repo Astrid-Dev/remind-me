@@ -24,3 +24,192 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+@import url('https://fonts.googleapis.com/css?family=Alexandria');
+@import "swiper/css";
+@import "swiper/css/pagination";
+
+*{
+  font-family: 'Alexandria', sans-serif;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+//.swiper-slide {
+//  text-align: center;
+//  font-size: 18px;
+//  background: #fff;
+//
+//  /* Center slide text vertically */
+//  display: -webkit-box;
+//  display: -ms-flexbox;
+//  display: -webkit-flex;
+//  display: flex;
+//  flex-direction: column;
+//  -webkit-box-pack: center;
+//  -ms-flex-pack: center;
+//  -webkit-justify-content: center;
+//  justify-content: center;
+//  -webkit-box-align: center;
+//  -ms-flex-align: center;
+//  -webkit-align-items: center;
+//  align-items: center;
+//}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ripple-parent {
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-primary{
+  background-color: var(--ion-color-primary);
+}
+
+.text-primary{
+  color: var(--ion-color-primary);
+}
+
+.swiper-pagination-bullet.swiper-pagination-bullet-active{
+  background-color: var(--ion-color-primary);
+}
+
+.font-bold{
+  font-weight: bold;
+}
+
+ion-label, ion-input{
+  font-family: inherit !important;
+}
+
+ion-text, ion-label{
+  color: var(--ion-color-primary) !important;
+}
+
+ion-button{
+  font-weight: bold;
+}
+
+
+ion-modal {
+  --height: 50%;
+  --border-radius: 16px;
+  --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+ion-modal::part(backdrop) {
+  background: rgb(0, 0, 0);
+  opacity: 1;
+}
+
+ion-item {
+  --ion-safe-area-right: 0;
+  --inner-padding-end: 0;
+}
+
+.reminder-item{
+  height: 75px;
+  background-color: #f0f4fa;
+  border-radius: 10px;
+  width: 100%;
+
+  display: flex;
+
+  .priority{
+    width: 5px;
+    border-radius: 5px;
+    height: 100%;
+
+    &.high{
+      background-color: var(--ion-color-danger);
+    }
+    &.low{
+      background-color: var(--ion-color-success);
+    }
+    &.medium{
+      background-color: var(--ion-color-warning);
+    }
+  }
+
+  .details{
+    width: 75%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    ion-text{
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+
+    ion-note{
+      font-weight: lighter;
+      font-size: 0.8em;
+    }
+
+  }
+
+  .tags{
+    width: 25%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    ion-badge{
+      border-radius: 50%;
+      width: 0.3em;
+      height: 1.2em;
+      margin-left: 10px;
+    }
+  }
+}
+
+.player{
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+
+  .minuter{
+    height: 3px;
+    border-radius: 3px;
+    width: -webkit-fill-available;
+    background-color: var(--ion-color-medium);
+    overflow: hidden;
+
+    .played{
+      height: 100%;
+      background-color: var(--ion-color-primary);
+    }
+  }
+
+  .played-time{
+    position: absolute;
+    width: 85%;
+    height: 20px;
+    bottom: 0;
+    text-align: center;
+    ion-text{
+      font-style: italic;
+      font-weight: lighter;
+      opacity: 0.5;
+    }
+  }
+}
+
+.no-event{
+  pointer-events: none;
+}

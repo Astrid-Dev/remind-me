@@ -1,0 +1,94 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="search-sharp"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon name="notifications-sharp"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+
+  <div class="calendar">
+    <div class="month">
+      <ion-button (click)="goBack()" [disabled]="isFirstMonth" mode="ios" fill="clear"><ion-icon name="chevron-back-sharp"></ion-icon></ion-button>
+      <ion-title>{{getMonthName(selectedMonth)}}</ion-title>
+      <ion-button (click)="goForward()" [disabled]="isLastMonth" mode="ios" fill="clear"><ion-icon name="chevron-forward-sharp"></ion-icon></ion-button>
+    </div>
+
+    <div class="days">
+      <div class="day-item">
+        <span>Lun</span>
+      </div>
+      <div class="day-item">
+        <span>Mar</span>
+      </div>
+      <div class="day-item">
+        <span>Mer</span>
+      </div>
+      <div class="day-item">
+        <span>Jeu</span>
+      </div>
+      <div class="day-item">
+        <span>Ven</span>
+      </div>
+      <div class="day-item">
+        <span>Sam</span>
+      </div>
+      <div class="day-item">
+        <span>Dim</span>
+      </div>
+    </div>
+    <div class="dates">
+      <div class="week" *ngFor="let days of weeks">
+        <div [class.passed]="isAPassedDate(date)"  [class.current]="isCurrentDate(date)" [class.selected]="isSelectedDate(date)" (click)="onDateChange(date)" class="day-date ion-activatable ripple-parent" *ngFor="let date of days">
+          <div *ngIf="dateHaveReminders(date)" class="badge"></div>
+          <span>{{date}}</span>
+          <ion-ripple-effect *ngIf="!!date"></ion-ripple-effect>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ion-list class="ion-margin-top">
+    <ion-item-group>
+      <ion-item-divider mode="md" lines="none">
+        <ion-label>
+          Liste des rappels
+        </ion-label>
+      </ion-item-divider>
+
+      <ion-item-sliding class="ion-margin-bottom" *ngFor="let reminder of remindersToDisplay">
+
+        <ion-item lines="none" class="ion-no-padding ion-no-margin" mode="ios">
+          <div class="reminder-item ion-padding ion-activatable ion-ripple-parent" id="reminder-details-button">
+            <div [className]="'priority ' + getPriorityClassName(reminder.priority)"></div>
+            <div class="details ion-margin-start">
+              <ion-text>{{reminder.title}}</ion-text>
+              <ion-note>{{getReminderHour(reminder.date)}}</ion-note>
+            </div>
+            <div class="tags">
+              <ion-badge *ngFor="let category of reminder.categories" [color]="getCategoryColor(category)" class="tag-item" mode="ios">&nbsp;</ion-badge>
+            </div>
+            <ion-ripple-effect></ion-ripple-effect>
+          </div>
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-item-option color="danger">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+
+    </ion-item-group>
+  </ion-list>
+</ion-content>
+
+<app-reminder-details></app-reminder-details>

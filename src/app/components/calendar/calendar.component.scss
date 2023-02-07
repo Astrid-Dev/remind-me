@@ -1,0 +1,89 @@
+.calendar{
+  min-height: 40vh;
+  background-color: #f0f4fa;
+  border-radius: 16px;
+
+  .month{
+    height: 6%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    ion-title{
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+
+  .days{
+    display: flex;
+    height: 35px;
+    width: 100%;
+    .day-item{
+      width: calc(100%/7);
+      height: 100%;
+      text-align: center;
+      color: #577eab;
+      font-variant: small-caps;
+    }
+  }
+
+  .dates{
+    width: 100%;
+    height: 94%;
+
+    .week{
+      width: 100%;
+      height: 20%;
+      display: flex;
+      align-items: center;
+
+      .day-date{
+        width: calc(100%/7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 35px;
+        position: relative;
+
+        &.selected {
+          span {
+            background-color: var(--ion-color-primary);
+            border-radius: 50%;
+            color: var(--ion-color-primary-contrast);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+        }
+
+        &.current {
+          span {
+            color: #2dd36f;
+          }
+        }
+
+        &.passed {
+          span {
+            color: var(--ion-color-medium);
+          }
+        }
+
+        .badge{
+          position: absolute;
+          width: 5px;
+          height: 5px;
+          background-color: red;
+          border-radius: 50%;
+          top: 0;
+        }
+      }
+    }
+  }
+}
+
+ion-item-divider ion-label{
+  font-size: 1.4em;
+}
