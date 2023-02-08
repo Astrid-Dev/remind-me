@@ -167,11 +167,19 @@ ion-item {
     justify-content: flex-end;
     align-items: center;
 
-    ion-badge{
+    .tag-item{
+      margin-left: 10px;
       border-radius: 50%;
+    }
+
+    ion-badge{
       width: 0.3em;
       height: 1.2em;
-      margin-left: 10px;
+    }
+
+    ion-skeleton-text{
+      width: 1.1em;
+      height: 1.1em;
     }
   }
 }
@@ -200,7 +208,7 @@ ion-item {
     position: absolute;
     width: 85%;
     height: 20px;
-    bottom: 0;
+    bottom: 3px;
     text-align: center;
     ion-text{
       font-style: italic;

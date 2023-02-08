@@ -6,13 +6,91 @@
     <ion-title>Profile</ion-title>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-segment mode="md">
-      <ion-segment-button>Informations</ion-segment-button>
-      <ion-segment-button>Modifier mot de passe</ion-segment-button>
+    <ion-segment mode="md" [value]="currentTab" (ionChange)="onTabChange($event)">
+      <ion-segment-button value="profile">Informations</ion-segment-button>
+      <ion-segment-button value="modify-password">Modifier mot de passe</ion-segment-button>
     </ion-segment>
   </ion-toolbar>
 </ion-header>
+
 <ion-content class="ion-padding">
 
+  <div class="profile-content" *ngIf="currentTab === 'profile'">
+    <div class="profile">
+      <img *ngIf="userData.photoURL" [src]="userData.photoURL" alt=""/>
+      <h3 *ngIf="!userData.photoURL">{{userShortName}}</h3>
+    </div>
+    <form [formGroup]="editProfileForm">
+      <ion-list class="ion-no-padding">
+        <ion-item lines="none" class="ion-no-margin ion-no-padding ion-margin-bottom">
+          <ion-label position="stacked">Nom d'utilisateur <span class="required">*</span></ion-label>
+          <ion-input formControlName="username" mode="ios" type="text" placeholder="Votre nom d'utilisateur"></ion-input>
+          <ion-note slot="error" *ngIf="editFormIsSubmitted && validationHasFailedFor('username', 'required')">
+            Le nom d'utilisateur est requis !
+          </ion-note>
+        </ion-item>
+        <ion-item lines="none" class="ion-no-margin ion-no-padding ion-margin-bottom">
+          <ion-label position="stacked">Email <span class="required">*</span></ion-label>
+          <ion-input formControlName="email" mode="ios" type="text" placeholder="Votre adresse email"></ion-input>
+          <ion-note slot="error" *ngIf="editFormIsSubmitted && validationHasFailedFor('email', 'required')">
+            L'adresse email est requise !
+          </ion-note>
+          <ion-note slot="error" *ngIf="editFormIsSubmitted && validationHasFailedFor('email', 'email')">
+            L'adresse email est invalide !
+          </ion-note>
+        </ion-item>
+      </ion-list>
+    </form>
+  </div>
+
+  <div class="update-password-content" *ngIf="currentTab === 'modify-password'">
+    <form [formGroup]="updatePasswordForm">
+      <ion-list class="ion-no-padding">
+        <ion-item lines="none" class="ion-no-margin ion-no-padding ion-margin-bottom">
+          <ion-label position="stacked">Ancien mot de passe <span class="required">*</span></ion-label>
+          <ion-input formControlName="oldPassword" mode="ios" type="text" placeholder="Ancien mot de passe"></ion-input>
+          <ion-note slot="error" *ngIf="editFormIsSubmitted && validationHasFailedFor('oldPassword', 'required')">
+            Ce champ est requis !
+          </ion-note>
+          <ion-note slot="error" *ngIf="editFormIsSubmitted && validationHasFailedFor('oldPassword', 'minlength')">
+            Ce champ doit avoir au moins 6 caractères !
+          </ion-note>
+          <ion-note slot="error" *ngIf="editFormIsSubmitted && validationHasFailedFor('oldPassword', 'maxlength')">
+            Ce champ doit avoir au plus 20 caractères !
+          </ion-note>
+        </ion-item>
+        <ion-item lines="none" class="ion-no-margin ion-no-padding ion-margin-bottom">
+          <ion-label position="stacked">Nouveau mot de passe <span class="required">*</span></ion-label>
+          <ion-input formControlName="newPassword" mode="ios" type="text" placeholder="Nouveau mot de passe"></ion-input>
+          <ion-note slot="error" *ngIf="editFormIsSubmitted && validationHasFailedFor('newPassword', 'required')">
+            Ce champ est requis !
+          </ion-note>
+          <ion-note slot="error" *ngIf="editFormIsSubmitted && validationHasFailedFor('newPassword', 'minlength')">
+            Ce champ doit avoir au moins 6 caractères !
+          </ion-note>
+          <ion-note slot="error" *ngIf="editFormIsSubmitted && validationHasFailedFor('newPassword', 'maxlength')">
+            Ce champ doit avoir au plus 20 caractères !
+          </ion-note>
+        </ion-item>
+        <ion-item lines="none" class="ion-no-margin ion-no-padding ion-margin-bottom">
+          <ion-label position="stacked">Confirmer mot de passe <span class="required">*</span></ion-label>
+          <ion-input formControlName="confirmPassword" mode="ios" type="text" placeholder="Confirmer mot de passe"></ion-input>
+          <ion-note slot="error" *ngIf="editFormIsSubmitted && validationHasFailedFor('confirmPassword', 'required')">
+            Ce champ est requis !
+          </ion-note>
+          <ion-note slot="error" *ngIf="editFormIsSubmitted && validationHasFailedFor('confirmPassword', 'mustMatch')">
+            Les deux mots de passes ne correspondent pas !
+          </ion-note>
+        </ion-item>
+      </ion-list>
+    </form>
+  </div>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button *ngIf="currentTab === 'profile'" expand="block" mode="ios" shape="round">Mettre le profile à jour</ion-button>
+    <ion-button *ngIf="currentTab === 'modify-password'" expand="block" mode="ios" shape="round">Mettre le mot de passe à jour</ion-button>
+  </ion-toolbar>
+</ion-footer>
 

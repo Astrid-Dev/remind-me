@@ -278,6 +278,10 @@ export class NewReminderComponent implements OnInit, AfterViewInit {
     if(!this.newReminderForm.valid){
       this.screenService.presentErrorToast('Formulaire invalide !');
     }
+    else if(this.newReminderForm.valid &&
+      ((new Date(this.formControls['date']?.value ?? 0).getTime() - (this.formControls['reminderTime']?.value * 60 * 1000)) <= new Date().getTime())){
+      this.screenService.presentErrorToast('Le rappel ne pourra pas prendre effet car la est expirée !');
+    }
     else{
       this.isProcessing = true;
       const data: Reminder = {
@@ -288,7 +292,7 @@ export class NewReminderComponent implements OnInit, AfterViewInit {
         priority: this.selectedPriority ?? ReminderPriorities.LOW,
         reminderTime: this.formControls['reminderTime']?.value,
         title: this.formControls['title']?.value,
-        recordDuration: this.recordedFileBase64 ? this.recordDuration : undefined
+        recordDuration: this.recordedFileBase64 ? this.recordDuration : 0
       }
 
       this.reminderService.createNewReminder(data)

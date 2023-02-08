@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Reminder, ReminderCategories, ReminderPriorities} from "../../models/Reminder";
 import {getCategoryColor, getCategoryLabel, getPriorityColor, getPriorityLabel} from "../../helpers/functions.helpers";
+import {SpeakerService} from "../../services/speaker.service";
+import {ScreenService} from "../../services/screen.service";
 
 @Component({
   selector: 'app-reminder-details',
@@ -19,7 +21,7 @@ export class ReminderDetailsComponent implements OnInit {
   playDurationDisplay: string = '';
   playDurationPercentage: number = 0;
 
-  constructor() { }
+  constructor(private speakerService: SpeakerService, private screenService: ScreenService) { }
 
   getCategoryColor(category: any){
     return getCategoryColor(category);
@@ -61,7 +63,6 @@ export class ReminderDetailsComponent implements OnInit {
     if((!this.reminder?.isARecord) || (this.reminder?.isARecord && !!this.isPlayingAudio)){
       return;
     }
-    console.log(this.isPlayingAudio);
     if(this.isPlayingAudio === null) {
       this.isPlayingAudio = true;
       this.descriptionDuration = this.reminder?.recordDuration ?? 0;
@@ -93,6 +94,14 @@ export class ReminderDetailsComponent implements OnInit {
     this.isPlayingAudio = null;
     this.playDurationDisplay = '';
     this.playDurationPercentage = 0;
+  }
+
+  readText(description: string){
+    this.speakerService.speak(description)
+      .then((res) =>{})
+      .catch((err) =>{
+        this.screenService.presentErrorToast('Impossible de lire le message');
+      });
   }
 
 }

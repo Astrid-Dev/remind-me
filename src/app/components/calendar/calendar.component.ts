@@ -19,6 +19,11 @@ export class CalendarComponent implements OnInit {
   allReminders: Reminder[] = [];
   remindersToDisplay: Reminder[] = [];
 
+  reminderDetailsModalIsOpen: boolean = false;
+  selectedReminder !: Reminder;
+
+  hasLoadedData: boolean = false;
+
   constructor(private reminderService: ReminderService) { }
 
   get currentMonth(){
@@ -83,6 +88,9 @@ export class CalendarComponent implements OnInit {
     setTimeout(() =>{
       collectionData(this.reminderService.remindersCollection.ref)
         .subscribe((data: any) =>{
+          if(!this.hasLoadedData){
+            this.hasLoadedData = true;
+          }
           this.allReminders = data;
           console.log(this.allReminders);
           this.setRemindersToDisplay();
@@ -126,7 +134,7 @@ export class CalendarComponent implements OnInit {
 
   setRemindersToDisplay(){
     let involvedDatetime = new Date(new Date().getFullYear(), this.selectedMonth, this.selectedDate, 0, 0, 0).getTime();
-    this.remindersToDisplay = this.allReminders.filter((elt) => ((elt.date >= involvedDatetime) && (elt.date < (involvedDatetime + ONE_DAY))));
+    this.remindersToDisplay = this.allReminders.filter((elt) => ((elt.date >= involvedDatetime) && (elt.date < (involvedDatetime + ONE_DAY)))).sort((a, b) => (b.date - a.date));
   }
 
   goForward(){
@@ -154,6 +162,11 @@ export class CalendarComponent implements OnInit {
 
     this.selectedDate = date;
     this.setRemindersToDisplay();
+  }
+
+  viewReminderDetails(reminder: Reminder){
+    this.selectedReminder = reminder;
+    this.reminderDetailsModalIsOpen = true;
   }
 
 }

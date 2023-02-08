@@ -35,6 +35,11 @@
               </div>
             </div>
           </div>
+          <ion-buttons slot="end" *ngIf="!reminder.isARecord">
+            <ion-button (click)="readText(reminder.description)">
+              <ion-icon name="volume-medium-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
         </ion-item>
         <ion-item lines="none" class="ion-margin-vertical">
           <div class="infos">

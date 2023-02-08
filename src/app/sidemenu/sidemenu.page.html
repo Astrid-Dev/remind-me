@@ -1,16 +1,17 @@
 <ion-split-pane contentId="content">
   <ion-menu contentId="content" side="start" #menu>
+    <ion-backdrop *ngIf="isLoggingOut"></ion-backdrop>
     <ion-content class="ion-padding">
       <div class="top-content">
         <ion-item mode="ios">
           <div class="user-details">
             <div class="profile">
-                <img *ngIf="userData?.photoURL" [src]="userData?.photoURL" alt=""/>
-                <h3>{{userShortName}}</h3>
+                <img *ngIf="userData.photoURL" [src]="userData.photoURL" alt=""/>
+                <h3 *ngIf="!userData.photoURL">{{userShortName}}</h3>
             </div>
             <div class="credentials">
-              <ion-label>{{userData?.displayName}}</ion-label>
-              <ion-text>{{userData?.email}}</ion-text>
+              <ion-label>{{userData.displayName}}</ion-label>
+              <ion-text>{{userData.email}}</ion-text>
             </div>
           </div>
         </ion-item>
@@ -20,7 +21,7 @@
         <ion-item mode="ios" [button]="true" [detail]="false">
           <ion-label class="ion-margin-vertical">Paramètres</ion-label>
         </ion-item>
-        <ion-item mode="ios" [button]="true" [detail]="false">
+        <ion-item (click)="logOut()" mode="ios" [button]="true" [detail]="false">
           <ion-label class="ion-margin-vertical">Se déconnecter</ion-label>
         </ion-item>
 

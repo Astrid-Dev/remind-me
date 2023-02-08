@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import {LocalNotifications} from "@capacitor/local-notifications";
 import {Reminder} from "../models/Reminder";
 import {ReminderService} from "./reminder.service";
+import {SpeakerService} from "./speaker.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
 
-  constructor(private reminderService: ReminderService) {
+  constructor(private reminderService: ReminderService, private speakerService: SpeakerService) {
     LocalNotifications.requestPermissions();
     LocalNotifications.registerActionTypes({
       types: [
@@ -41,7 +42,7 @@ export class NotificationService {
           audioRef.load();
         }
         else{
-
+          this.speakerService.speak(reminder.description);
         }
       }
     });
@@ -59,7 +60,7 @@ export class NotificationService {
             reminder: reminder
           },
           iconColor: '#18314f',
-          sound: 'mixkit-happy-bells-notification-937.wav',
+          sound: 'mixkit_happy_bells_notification_937.wav',
           actionTypeId: 'REMINDER_ACTIONS',
           schedule: {
             at: new Date((reminder.date - (reminder.reminderTime * 60 * 1000)))

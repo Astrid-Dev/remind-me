@@ -56,7 +56,7 @@
     </div>
   </div>
 
-  <ion-list class="ion-margin-top">
+  <ion-list class="ion-margin-top" *ngIf="hasLoadedData">
     <ion-item-group>
       <ion-item-divider mode="md" lines="none">
         <ion-label>
@@ -67,7 +67,7 @@
       <ion-item-sliding class="ion-margin-bottom" *ngFor="let reminder of remindersToDisplay">
 
         <ion-item lines="none" class="ion-no-padding ion-no-margin" mode="ios">
-          <div class="reminder-item ion-padding ion-activatable ion-ripple-parent" id="reminder-details-button">
+          <div class="reminder-item ion-padding ion-activatable ion-ripple-parent" id="reminder-details-button" (click)="viewReminderDetails(reminder)">
             <div [className]="'priority ' + getPriorityClassName(reminder.priority)"></div>
             <div class="details ion-margin-start">
               <ion-text>{{reminder.title}}</ion-text>
@@ -89,6 +89,68 @@
 
     </ion-item-group>
   </ion-list>
+
+  <ion-list *ngIf="!hasLoadedData">
+    <ion-item-group>
+      <ion-item-divider mode="md" lines="none">
+        <ion-label>
+          <ion-skeleton-text [animated]="true" style="width: 40vw"></ion-skeleton-text>
+        </ion-label>
+      </ion-item-divider>
+
+      <ion-item-sliding class="ion-margin-bottom">
+        <ion-item lines="none" class="ion-no-padding ion-no-margin" mode="ios">
+          <div class="reminder-item ion-padding">
+            <div class="priority">
+              <ion-skeleton-text [animated]="true" style="width: 100%; height: 100%"></ion-skeleton-text>
+            </div>
+            <div class="details ion-margin-start">
+              <ion-text><ion-skeleton-text [animated]="true" style="width: 55vw"></ion-skeleton-text></ion-text>
+              <ion-note><ion-skeleton-text [animated]="true" style="width: 20vw"></ion-skeleton-text></ion-note>
+            </div>
+            <div class="tags">
+              <ion-skeleton-text *ngFor="let category of [1, 2, 3]" class="tag-item" [animated]="true"></ion-skeleton-text>
+            </div>
+          </div>
+        </ion-item>
+      </ion-item-sliding>
+
+      <ion-item-sliding class="ion-margin-bottom">
+        <ion-item lines="none" class="ion-no-padding ion-no-margin" mode="ios">
+          <div class="reminder-item ion-padding">
+            <div class="priority">
+              <ion-skeleton-text [animated]="true" style="width: 100%; height: 100%"></ion-skeleton-text>
+            </div>
+            <div class="details ion-margin-start">
+              <ion-text><ion-skeleton-text [animated]="true" style="width: 55vw"></ion-skeleton-text></ion-text>
+              <ion-note><ion-skeleton-text [animated]="true" style="width: 20vw"></ion-skeleton-text></ion-note>
+            </div>
+            <div class="tags">
+              <ion-skeleton-text *ngFor="let category of [1, 2, 3]" class="tag-item" [animated]="true"></ion-skeleton-text>
+            </div>
+          </div>
+        </ion-item>
+      </ion-item-sliding>
+
+      <ion-item-sliding class="ion-margin-bottom">
+        <ion-item lines="none" class="ion-no-padding ion-no-margin" mode="ios">
+          <div class="reminder-item ion-padding">
+            <div class="priority">
+              <ion-skeleton-text [animated]="true" style="width: 100%; height: 100%"></ion-skeleton-text>
+            </div>
+            <div class="details ion-margin-start">
+              <ion-text><ion-skeleton-text [animated]="true" style="width: 55vw"></ion-skeleton-text></ion-text>
+              <ion-note><ion-skeleton-text [animated]="true" style="width: 20vw"></ion-skeleton-text></ion-note>
+            </div>
+            <div class="tags">
+              <ion-skeleton-text *ngFor="let category of [1, 2, 3]" class="tag-item" [animated]="true"></ion-skeleton-text>
+            </div>
+          </div>
+        </ion-item>
+      </ion-item-sliding>
+    </ion-item-group>
+  </ion-list>
+
 </ion-content>
 
-<app-reminder-details></app-reminder-details>
+<app-reminder-details [reminder]="selectedReminder" [isOpen]="reminderDetailsModalIsOpen" (onClose)="reminderDetailsModalIsOpen = false;"></app-reminder-details>

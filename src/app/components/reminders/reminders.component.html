@@ -18,6 +18,7 @@
   <div class="states-choices">
     <ion-button (click)="onStateChange('coming')" mode="ios" fill="clear" [color]="selectedState === 'coming' ? 'primary' : 'medium'">À venir</ion-button>
     <ion-button (click)="onStateChange('read')" mode="ios" fill="clear" [color]="selectedState === 'read' ? 'primary' : 'medium'">Lus</ion-button>
+    <ion-button (click)="onStateChange('read')" mode="ios" fill="clear" [color]="selectedState === 'missed' ? 'primary' : 'medium'">Manqués</ion-button>
   </div>
 
   <div class="group-by-block ion-text-end">
@@ -27,89 +28,7 @@
     </ion-button>
   </div>
 
-  <ion-list>
-
-<!--    <ion-item-group>-->
-<!--      <ion-item-divider mode="md" lines="none">-->
-<!--        <ion-label>-->
-<!--          Section A-->
-<!--        </ion-label>-->
-<!--      </ion-item-divider>-->
-
-<!--      <ion-item-sliding class="ion-margin-bottom">-->
-
-<!--        <ion-item lines="none" class="ion-no-padding ion-no-margin" mode="ios">-->
-<!--          <div class="reminder-item ion-padding ion-activatable ion-ripple-parent" id="reminder-details-button">-->
-<!--            <div class="priority high-priority"></div>-->
-<!--            <div class="details ion-margin-start">-->
-<!--              <ion-text>Reminder 1</ion-text>-->
-<!--              <ion-note>Aujourd'hui</ion-note>-->
-<!--            </div>-->
-<!--            <div class="tags">-->
-<!--              <ion-badge color="warning" class="tag-item" mode="ios">&nbsp;</ion-badge>-->
-<!--              <ion-badge color="tertiary" class="tag-item">&nbsp;</ion-badge>-->
-<!--              <ion-badge color="secondary" class="tag-item">&nbsp;</ion-badge>-->
-<!--            </div>-->
-<!--            <ion-ripple-effect></ion-ripple-effect>-->
-<!--          </div>-->
-<!--        </ion-item>-->
-
-<!--        <ion-item-options side="end">-->
-<!--          <ion-item-option color="danger">-->
-<!--            <ion-icon slot="icon-only" name="trash"></ion-icon>-->
-<!--          </ion-item-option>-->
-<!--        </ion-item-options>-->
-<!--      </ion-item-sliding>-->
-
-<!--      <ion-item-sliding  class="ion-margin-bottom">-->
-
-<!--        <ion-item lines="none" class="ion-no-padding ion-no-margin" mode="ios">-->
-<!--          <div class="reminder-item ion-padding">-->
-<!--            <div class="priority medium-priority"></div>-->
-<!--            <div class="details ion-margin-start">-->
-<!--              <ion-text>Reminder 1</ion-text>-->
-<!--              <ion-note>Aujourd'hui</ion-note>-->
-<!--            </div>-->
-<!--            <div class="tags">-->
-<!--              <ion-badge color="warning" class="tag-item">&nbsp;</ion-badge>-->
-<!--              <ion-badge color="tertiary" class="tag-item">&nbsp;</ion-badge>-->
-<!--              <ion-badge color="secondary" class="tag-item">&nbsp;</ion-badge>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </ion-item>-->
-
-<!--        <ion-item-options side="end">-->
-<!--          <ion-item-option color="danger">-->
-<!--            <ion-icon slot="icon-only" name="trash"></ion-icon>-->
-<!--          </ion-item-option>-->
-<!--        </ion-item-options>-->
-<!--      </ion-item-sliding>-->
-
-<!--      <ion-item-sliding class="ion-margin-bottom">-->
-
-<!--        <ion-item lines="none" class="ion-no-margin ion-no-padding" mode="ios">-->
-<!--          <div class="reminder-item ion-padding">-->
-<!--            <div class="priority low-priority"></div>-->
-<!--            <div class="details ion-margin-start">-->
-<!--              <ion-text>Reminder 1</ion-text>-->
-<!--              <ion-note>Aujourd'hui</ion-note>-->
-<!--            </div>-->
-<!--            <div class="tags">-->
-<!--              <ion-badge color="warning" class="tag-item">&nbsp;</ion-badge>-->
-<!--              <ion-badge color="tertiary" class="tag-item">&nbsp;</ion-badge>-->
-<!--              <ion-badge color="secondary" class="tag-item">&nbsp;</ion-badge>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </ion-item>-->
-
-<!--        <ion-item-options side="end">-->
-<!--          <ion-item-option color="danger">-->
-<!--            <ion-icon slot="icon-only" name="trash"></ion-icon>-->
-<!--          </ion-item-option>-->
-<!--        </ion-item-options>-->
-<!--      </ion-item-sliding>-->
-<!--    </ion-item-group>-->
-
+  <ion-list *ngIf="hasLoadedDataForTheFirstTime">
     <ion-item-group *ngFor="let group of remindersGroups">
       <ion-item-divider mode="md" lines="none">
         <ion-label>
@@ -143,12 +62,83 @@
     </ion-item-group>
 
   </ion-list>
+
+  <ion-list *ngIf="!hasLoadedDataForTheFirstTime">
+    <ion-item-group>
+      <ion-item-divider mode="md" lines="none">
+        <ion-label>
+          <ion-skeleton-text [animated]="true" style="width: 40vw"></ion-skeleton-text>
+        </ion-label>
+      </ion-item-divider>
+
+      <ion-item-sliding class="ion-margin-bottom">
+        <ion-item lines="none" class="ion-no-padding ion-no-margin" mode="ios">
+          <div class="reminder-item ion-padding">
+            <div class="priority">
+              <ion-skeleton-text [animated]="true" style="width: 100%; height: 100%"></ion-skeleton-text>
+            </div>
+            <div class="details ion-margin-start">
+              <ion-text><ion-skeleton-text [animated]="true" style="width: 55vw"></ion-skeleton-text></ion-text>
+              <ion-note><ion-skeleton-text [animated]="true" style="width: 20vw"></ion-skeleton-text></ion-note>
+            </div>
+            <div class="tags">
+              <ion-skeleton-text *ngFor="let category of [1, 2, 3]" class="tag-item" [animated]="true"></ion-skeleton-text>
+            </div>
+          </div>
+        </ion-item>
+      </ion-item-sliding>
+
+      <ion-item-sliding class="ion-margin-bottom">
+        <ion-item lines="none" class="ion-no-padding ion-no-margin" mode="ios">
+          <div class="reminder-item ion-padding">
+            <div class="priority">
+              <ion-skeleton-text [animated]="true" style="width: 100%; height: 100%"></ion-skeleton-text>
+            </div>
+            <div class="details ion-margin-start">
+              <ion-text><ion-skeleton-text [animated]="true" style="width: 55vw"></ion-skeleton-text></ion-text>
+              <ion-note><ion-skeleton-text [animated]="true" style="width: 20vw"></ion-skeleton-text></ion-note>
+            </div>
+            <div class="tags">
+              <ion-skeleton-text *ngFor="let category of [1, 2, 3]" class="tag-item" [animated]="true"></ion-skeleton-text>
+            </div>
+          </div>
+        </ion-item>
+      </ion-item-sliding>
+    </ion-item-group>
+
+    <ion-item-group>
+      <ion-item-divider mode="md" lines="none">
+        <ion-label>
+          <ion-skeleton-text [animated]="true" style="width: 40vw"></ion-skeleton-text>
+        </ion-label>
+      </ion-item-divider>
+
+      <ion-item-sliding class="ion-margin-bottom">
+        <ion-item lines="none" class="ion-no-padding ion-no-margin" mode="ios">
+          <div class="reminder-item ion-padding">
+            <div class="priority">
+              <ion-skeleton-text [animated]="true" style="width: 100%; height: 100%"></ion-skeleton-text>
+            </div>
+            <div class="details ion-margin-start">
+              <ion-text><ion-skeleton-text [animated]="true" style="width: 55vw"></ion-skeleton-text></ion-text>
+              <ion-note><ion-skeleton-text [animated]="true" style="width: 20vw"></ion-skeleton-text></ion-note>
+            </div>
+            <div class="tags">
+              <ion-skeleton-text *ngFor="let category of [1, 2, 3]" class="tag-item" [animated]="true"></ion-skeleton-text>
+            </div>
+          </div>
+        </ion-item>
+      </ion-item-sliding>
+
+    </ion-item-group>
+
+  </ion-list>
 </ion-content>
 
 <app-reminder-details [reminder]="selectedReminder" [isOpen]="reminderDetailsModalIsOpen" (onClose)="reminderDetailsModalIsOpen = false;"></app-reminder-details>
 
 
-<ion-modal mode="ios" #modal trigger=".group-by-button">
+<ion-modal mode="ios" #modal trigger="group-by-button">
   <ng-template>
     <ion-content>
       <ion-toolbar>

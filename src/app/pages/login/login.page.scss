@@ -44,12 +44,18 @@ footer{
   }
 }
 
-.others-options div{
+.others-options div:first-of-type{
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   ion-text{
     opacity: 0.6;
+  }
+  .providers{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
   }
 }
 

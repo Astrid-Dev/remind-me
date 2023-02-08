@@ -9,7 +9,7 @@ const config: CapacitorConfig = {
     LocalNotifications: {
       smallIcon: "ic_stat_reminder",
       iconColor: "#18314f",
-      sound: "mixkit-happy-bells-notification-937.wav",
+      sound: "mixkit_happy_bells_notification_937.wav",
     },
   }
 };
