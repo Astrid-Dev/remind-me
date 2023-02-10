@@ -9,6 +9,7 @@ import { SidemenuPageRoutingModule } from './sidemenu-routing.module';
 import { SidemenuPage } from './sidemenu.page';
 import {SharedModule} from "../helpers/shared.module";
 import {ProfileComponent} from "../components/profile/profile.component";
+import {SettingsComponent} from "../components/settings/settings.component";
 
 @NgModule({
   imports: [
@@ -18,6 +19,6 @@ import {ProfileComponent} from "../components/profile/profile.component";
     SidemenuPageRoutingModule,
     SharedModule,
   ],
-  declarations: [SidemenuPage, ProfileComponent]
+  declarations: [SidemenuPage, ProfileComponent, SettingsComponent]
 })
 export class SidemenuPageModule {}

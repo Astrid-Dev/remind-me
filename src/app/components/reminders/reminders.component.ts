@@ -67,21 +67,20 @@ export class RemindersComponent implements OnInit {
   setRemindersGroups(){
     let data = [];
     if(this.selectedState === 'read'){
-      data = this.allReminders.filter(elt => elt.hasBeenRead);
+      data = this.allReminders.filter(elt => elt.hasBeenRead).sort((a, b) => (b.date - a.date));
     }
     else if(this.selectedState === 'missed'){
-      data = this.allReminders.filter(elt => !elt.hasBeenRead);
+      data = this.allReminders.filter(elt => !elt.hasBeenRead).sort((a, b) => (b.date - a.date));
     }
     else{
       data = this.allReminders.filter((elt) =>{
         const today = new Date();
-        today.setHours(0, 0, 0, 0);
         const afterTomorrow = new Date(today.getTime() + (2*24*60*60*1000));
         return elt.date >= today.getTime() && elt.date < afterTomorrow.getTime();
         // return true;
-      });
+      }).sort((a, b) => (a.date - b.date));
     }
-    data.sort((a, b) => (a.date - b.date));
+
     let categories = Object.values(ReminderCategories);
     let priorities = Object.values(ReminderPriorities);
 

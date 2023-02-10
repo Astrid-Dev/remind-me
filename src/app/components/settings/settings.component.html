@@ -1,0 +1,91 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/reminders"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Paramètres</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+    <ion-list>
+      <ion-item [button]="true" id="reminder-time-button">
+        <ion-label>Heure de rappel par défaut</ion-label>
+        <ion-text>{{reminderTime === 0 ? 'Instantané': ((reminderTime === 60 ? '1 Heure' : (reminderTime + ' Minutes')) + ' avant')}}</ion-text>
+      </ion-item>
+      <ion-item [button]="true" id="should-read-notifications-button">
+        <ion-label>Lire la notification par défaut</ion-label>
+        <ion-text>{{shouldReadNotifications ? 'Oui' : 'Non'}}</ion-text>
+      </ion-item>
+      <ion-item [button]="true">
+        <ion-label>Sonnerie de la notification</ion-label>
+        <ion-text>Sonnerie 1</ion-text>
+      </ion-item>
+    </ion-list>
+</ion-content>
+
+<ion-modal mode="ios" #modalReminderTime trigger="reminder-time-button">
+  <ng-template>
+    <ion-content>
+      <ion-toolbar>
+        <ion-buttons slot="end">
+          <ion-button (click)="modalReminderTime.dismiss()">
+            <ion-icon size="large" name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+      <ion-list class="group-by-list">
+        <ion-radio-group [(ngModel)]="reminderTime" (ngModelChange)="saveSettings()">
+          <ion-item lines="none">
+            <ion-label>Instantané</ion-label>
+            <ion-radio mode="md" slot="start" [value]="0"></ion-radio>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label>15 minutes avant</ion-label>
+            <ion-radio mode="md" slot="start" [value]="15"></ion-radio>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label>30 minutes avant</ion-label>
+            <ion-radio mode="md" slot="start" [value]="30"></ion-radio>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label>45 minutes avant</ion-label>
+            <ion-radio mode="md" slot="start" [value]="45"></ion-radio>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label>1 Heure avant</ion-label>
+            <ion-radio mode="md" slot="start" [value]="60"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<ion-modal style="height: 50%" mode="ios" #modalReadNotification trigger="should-read-notifications-button">
+  <ng-template>
+    <ion-content>
+      <ion-toolbar>
+        <ion-buttons slot="end">
+          <ion-button (click)="modalReadNotification.dismiss()">
+            <ion-icon size="large" name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+      <ion-list class="group-by-list">
+        <ion-radio-group [(ngModel)]="shouldReadNotifications" (ngModelChange)="saveSettings()">
+          <ion-item lines="none">
+            <ion-label>Oui</ion-label>
+            <ion-radio mode="md" slot="start" [value]="true"></ion-radio>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label>Non</ion-label>
+            <ion-radio mode="md" slot="start" [value]="false"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+

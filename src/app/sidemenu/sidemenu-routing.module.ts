@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { SidemenuPage } from './sidemenu.page';
 import {NewReminderComponent} from "../components/new-reminder/new-reminder.component";
 import {ProfileComponent} from "../components/profile/profile.component";
+import {SettingsComponent} from "../components/settings/settings.component";
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
       {
         path: 'profile',
         component: ProfileComponent
+      },
+      {
+        path: 'settings',
+        component: SettingsComponent
       },
       {
         path: '',

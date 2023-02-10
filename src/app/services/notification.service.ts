@@ -3,13 +3,15 @@ import {LocalNotifications} from "@capacitor/local-notifications";
 import {Reminder} from "../models/Reminder";
 import {ReminderService} from "./reminder.service";
 import {SpeakerService} from "./speaker.service";
+import {SettingsService} from "./settings.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
 
-  constructor(private reminderService: ReminderService, private speakerService: SpeakerService) {
+  constructor(private reminderService: ReminderService, private speakerService: SpeakerService, private settingsService: SettingsService) {
+    console.log(new Date().valueOf())
     LocalNotifications.requestPermissions();
     LocalNotifications.registerActionTypes({
       types: [
@@ -28,6 +30,12 @@ export class NotificationService {
           ]
         }
       ]
+    });
+
+    LocalNotifications.addListener('localNotificationReceived',  (notification) => {
+      if(this.settingsService.settings.shouldReadNotifications){
+        this.speakerService.speak(notification.largeBody ?? 'Nouveau rappel de Remind me');
+      }
     });
 
     LocalNotifications.addListener("localNotificationActionPerformed", (notificationAction) =>{
@@ -49,12 +57,14 @@ export class NotificationService {
   }
 
   async scheduleReminderNotification(reminder: Reminder, userId: string){
+    const body = `Vous avez programmez un rappel pour une activité qui aura lieu ${reminder.reminderTime === 0 ? 'à l\'instant' : ('dans ' + reminder.reminderTime + ' minutes')}`;
     await LocalNotifications.schedule({
       notifications: [
         {
           title: reminder.title,
-          body: `Vous avez programmez un rappel pour une activité qui aura lieu ${reminder.reminderTime === 0 ? 'à l\'instant' : ('dans ' + reminder.reminderTime + ' minutes')}`,
-          id: new Date().getTime(),
+          body: body,
+          largeBody: body,
+          id: (Math.floor(Math.random()*90000) + 10000),
           extra: {
             userId: userId,
             reminder: reminder

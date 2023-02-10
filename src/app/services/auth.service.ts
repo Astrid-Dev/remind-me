@@ -38,12 +38,13 @@ export class AuthService {
         const userRef: any = this.afStore.doc(`users/${user.uid}`).ref;
         docData(userRef).subscribe((data: any) =>{
           if(data){
-            this.$userData = {
-              ...this.$userData,
-              photoURL: data.photoURL,
-              displayName: data.displayName
-            };
-            localStorage.setItem('user', JSON.stringify(this.$userData));
+            if((data.emailVerified !== this.userData.emailVerified) ||
+              (data.displayName !== this.userData.displayName) ||
+              (data.email !== this.userData.email) ||
+              (data.photoURL !== this.userData.photoURL) ||
+              (data.uid !== this.userData.uid)){
+              this.SetUserData(this.$userData);
+            }
           }
         })
       } else {
@@ -66,12 +67,14 @@ export class AuthService {
     return this.ngFireAuth.createUserWithEmailAndPassword(email, password);
   }
 
+  UpdateUSerCredentials(user: any){
+    return this.ngFireAuth.updateCurrentUser(user);
+  }
+
   // Email verification when new user register
   SendVerificationMail() {
     return this.ngFireAuth.currentUser.then((user) => {
-      return user && user.sendEmailVerification().then(() => {
-        this.router.navigate(['login']);
-      });
+      return user && user.sendEmailVerification();
     });
   }
 
@@ -91,16 +94,12 @@ export class AuthService {
 
   // Returns true when user is logged in
   get isLoggedIn(): boolean {
-    const temp = localStorage.getItem('user');
-    const user = temp ? JSON.parse(temp) : null;
-    return user && user.emailVerified;
+    return this.$userData && this.$userData.emailVerified;
   }
 
   // Returns true when user's email is verified
   get isEmailVerified(): boolean | null {
-    const temp = localStorage.getItem('user');
-    const user = temp ? JSON.parse(temp) : null;
-    return (temp ? (user && user.emailVerified) : null);
+    return this.$userData ? this.$userData.emailVerified : null;
   }
 
   // Sign in with Gmail

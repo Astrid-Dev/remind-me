@@ -67,6 +67,7 @@ export class LoginPage implements OnInit {
       this.authService.SignIn(this.formControls['email']?.value, this.formControls['password']?.value)
         .then((res) =>{
           console.log(res);
+          console.log(this.authService.isEmailVerified)
           if(this.authService.isEmailVerified){
             this.screenService.presentSuccessToast(`Salut, ${res.user?.displayName} ! Vous êtes désormais connecté(e) !`);
             this.router.navigate(['/app/reminders']);

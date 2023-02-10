@@ -15,6 +15,7 @@ import {AbstractControl, FormBuilder, FormGroup, Validators, FormControl} from "
 import {Router} from "@angular/router";
 import {ReminderService} from "../../services/reminder.service";
 import {NotificationService} from "../../services/notification.service";
+import {SettingsService} from "../../services/settings.service";
 
 const MAX_RECORDING_TIME = 5 * 60;
 
@@ -52,6 +53,7 @@ export class NewReminderComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     private reminderService: ReminderService,
     private notificationService: NotificationService,
+    private settingsService: SettingsService,
     private router: Router
   ) {
     this.newReminderForm = this.formBuilder.group({
@@ -108,6 +110,8 @@ export class NewReminderComponent implements OnInit, AfterViewInit {
         color: getPriorityColor(temp2[i] as ReminderPriorities)
       });
     }
+
+    this.newReminderForm.controls['reminderTime']?.setValue(this.settingsService.settings.defaultReminderTime);
   }
 
   ngAfterViewInit() {

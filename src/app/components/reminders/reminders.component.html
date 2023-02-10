@@ -18,7 +18,7 @@
   <div class="states-choices">
     <ion-button (click)="onStateChange('coming')" mode="ios" fill="clear" [color]="selectedState === 'coming' ? 'primary' : 'medium'">À venir</ion-button>
     <ion-button (click)="onStateChange('read')" mode="ios" fill="clear" [color]="selectedState === 'read' ? 'primary' : 'medium'">Lus</ion-button>
-    <ion-button (click)="onStateChange('read')" mode="ios" fill="clear" [color]="selectedState === 'missed' ? 'primary' : 'medium'">Manqués</ion-button>
+    <ion-button (click)="onStateChange('missed')" mode="ios" fill="clear" [color]="selectedState === 'missed' ? 'primary' : 'medium'">Manqués</ion-button>
   </div>
 
   <div class="group-by-block ion-text-end">
@@ -46,7 +46,7 @@
               <ion-note>{{getReminderHour(reminder.date)}}</ion-note>
             </div>
             <div class="tags">
-              <ion-badge *ngFor="let category of reminder.categories" [color]="getCategoryColor(category)" class="tag-item" mode="ios">&nbsp;</ion-badge>
+              <ion-badge *ngFor="let category of reminder.categories" [color]="getCategoryColor(category)" class="tag-item" mode="md">&nbsp;</ion-badge>
               </div>
             <ion-ripple-effect></ion-ripple-effect>
           </div>

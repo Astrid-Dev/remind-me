@@ -6,21 +6,20 @@ import {Injectable} from "@angular/core";
   providedIn: 'root'
 })
 export class ShouldVerifyEmailGuard implements CanActivate{
-  constructor(private authState: AuthService, private router: Router) {
-  }
+  constructor(private authState: AuthService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot,
-              state: RouterStateSnapshot):Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      console.log(this.authState.userData);
-      if(this.authState.isEmailVerified === null){
-        this.router.navigate(['/welcome']);
-      }
-      else if(this.authState.isEmailVerified){
-        this.router.navigate(['/app/reminders']);
-      }
+              state: RouterStateSnapshot): boolean {
+    console.log(this.authState.isEmailVerified)
+    if(this.authState.isEmailVerified){
+      this.router.navigate(['/app/reminders']);
+      return false;
+    }
+    else if(this.authState.isEmailVerified === null){
+      this.router.navigate(['/login']);
+      return false;
+    }
 
-      resolve(this.authState.isEmailVerified === false);
-    });
+    return true;
   }
 }

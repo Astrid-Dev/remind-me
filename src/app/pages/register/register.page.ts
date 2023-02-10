@@ -63,7 +63,7 @@ export class RegisterPage implements OnInit {
         .then((res) =>{
           console.log(res);
             this.authService.SendVerificationMail();
-            this.authService.SetUserData({
+            this.authService.UpdateUSerCredentials({
               uid: res.user?.uid,
               email: res.user?.email,
               photoURL: res.user?.photoURL ?? null,
@@ -71,7 +71,7 @@ export class RegisterPage implements OnInit {
               displayName: this.formControls['pseudo']?.value
             });
             this.screenService.presentSuccessToast('Votre compte a été créé avec succès ! Veuillez valider votre compte grace au lien qui vous a été envoyé par mail !');
-            // this.router.navigate(['/verify-email']);
+            this.router.navigate(['/verify-email']);
         })
         .catch((err) =>{
           let msg;

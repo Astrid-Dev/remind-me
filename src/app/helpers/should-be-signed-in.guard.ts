@@ -6,17 +6,14 @@ import {Injectable} from "@angular/core";
   providedIn: 'root'
 })
 export class ShouldBeSignedInGuard implements CanActivate{
-  constructor(private authState: AuthService, private router: Router) {
-  }
+  constructor(private authState: AuthService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot,
-              state: RouterStateSnapshot):Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      console.log(this.authState.userData);
-      if(!this.authState.isLoggedIn){
-        this.router.navigate(['/welcome'])
-      }
-      resolve(this.authState.isLoggedIn);
-    });
+              state: RouterStateSnapshot): boolean {
+    if(!this.authState.isLoggedIn){
+      this.router.navigate(['/welcome']);
+      return false;
+    }
+    return true;
   }
 }
