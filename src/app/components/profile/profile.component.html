@@ -15,7 +15,7 @@
 
 <ion-content class="ion-padding">
 
-  <div class="profile-content" *ngIf="currentTab === 'profile'">
+  <div class="profile-content" *ngIf="((currentTab === 'profile') && (userData))">
     <div class="profile">
       <img *ngIf="userData.photoURL" [src]="userData.photoURL" alt=""/>
       <h3 *ngIf="!userData.photoURL">{{userShortName}}</h3>

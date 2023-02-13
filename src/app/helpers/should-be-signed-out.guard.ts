@@ -11,10 +11,10 @@ export class ShouldBeSignedOutGuard implements CanActivate{
 
   canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot):boolean {
-    if(this.authState.isLoggedIn){
-      this.router.navigate(['/app/reminders']);
-      return false;
-    }
+    // if(this.authState.isLoggedIn){
+    //   this.router.navigate(['/app/reminders']);
+    //   return false;
+    // }
     return true;
   }
 }

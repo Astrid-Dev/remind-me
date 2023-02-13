@@ -10,8 +10,11 @@ import {SettingsService} from "./settings.service";
 })
 export class NotificationService {
 
-  constructor(private reminderService: ReminderService, private speakerService: SpeakerService, private settingsService: SettingsService) {
-    console.log(new Date().valueOf())
+  constructor(
+    private reminderService: ReminderService,
+    private speakerService: SpeakerService,
+    private settingsService: SettingsService
+  ) {
     LocalNotifications.requestPermissions();
     LocalNotifications.registerActionTypes({
       types: [
@@ -41,9 +44,8 @@ export class NotificationService {
     LocalNotifications.addListener("localNotificationActionPerformed", (notificationAction) =>{
       if(notificationAction.actionId === 'read'){
         const reminder = notificationAction.notification.extra.reminder;
-        const userId = notificationAction.notification.extra.userId;
         if(reminder.isARecord){
-          this.reminderService.setAReminderStatusAsRead(reminder.uid, userId);
+          this.reminderService.setAReminderStatusAsRead(reminder.uid);
 
           const audioRef = new Audio(`data:audio/aac;base64,${reminder.description}`);
           audioRef.oncanplaythrough = () => audioRef.play();
@@ -56,7 +58,7 @@ export class NotificationService {
     });
   }
 
-  async scheduleReminderNotification(reminder: Reminder, userId: string){
+  async scheduleReminderNotification(reminder: Reminder){
     const body = `Vous avez programmez un rappel pour une activité qui aura lieu ${reminder.reminderTime === 0 ? 'à l\'instant' : ('dans ' + reminder.reminderTime + ' minutes')}`;
     await LocalNotifications.schedule({
       notifications: [
@@ -66,7 +68,6 @@ export class NotificationService {
           largeBody: body,
           id: (Math.floor(Math.random()*90000) + 10000),
           extra: {
-            userId: userId,
             reminder: reminder
           },
           iconColor: '#18314f',

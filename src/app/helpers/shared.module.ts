@@ -4,9 +4,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {TranslationService} from '../services/translation.service';
 import {ScreenService} from '../services/screen.service';
 import {SwiperModule} from 'swiper/angular';
+import {ReminderService} from "../services/reminder.service";
+import {SettingsService} from "../services/settings.service";
+import {SpeakerService} from "../services/speaker.service";
+import {NotificationService} from "../services/notification.service";
 
 @NgModule({
   imports: [
@@ -40,8 +43,11 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [
-        TranslationService,
         ScreenService,
+        ReminderService,
+        SettingsService,
+        SpeakerService,
+        NotificationService
       ]
     };
   }

@@ -7,7 +7,7 @@ ion-input, ion-textarea, ion-select, ion-datetime-button{
 
 .priorities, .categories{
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
   min-height: 90px;
@@ -37,7 +37,7 @@ ion-item{
 }
 
 .priorities{
-  align-items: start;
+  align-items: flex-start;
 }
 
 .player {

@@ -1,15 +1,13 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
+    <ion-title>Calendrier</ion-title>
     <ion-buttons slot="end">
-      <ion-button>
-        <ion-icon name="search-sharp"></ion-icon>
+      <ion-button routerLink="/settings">
+        <ion-icon name="cog-sharp"></ion-icon>
       </ion-button>
-      <ion-button>
-        <ion-icon name="notifications-sharp"></ion-icon>
-      </ion-button>
+<!--      <ion-button routerLink="/notifications">-->
+<!--        <ion-icon name="notifications-sharp"></ion-icon>-->
+<!--      </ion-button>-->
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -81,7 +79,7 @@
         </ion-item>
 
         <ion-item-options side="end">
-          <ion-item-option color="danger">
+          <ion-item-option color="danger" (click)="deleteReminder(reminder.uid)">
             <ion-icon slot="icon-only" name="trash"></ion-icon>
           </ion-item-option>
         </ion-item-options>

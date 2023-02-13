@@ -301,7 +301,7 @@ export class NewReminderComponent implements OnInit, AfterViewInit {
 
       this.reminderService.createNewReminder(data)
         .then((res) =>{
-          this.notificationService.scheduleReminderNotification(res.reminder, res.userId);
+          this.notificationService.scheduleReminderNotification(res);
           this.screenService.presentSuccessToast('Votre rappel a été créé avec succès !');
           this.router.navigate(['/app/reminders']);
         })

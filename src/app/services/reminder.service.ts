@@ -1,42 +1,64 @@
 import { Injectable } from '@angular/core';
-import {
-  AngularFirestore,
-  AngularFirestoreDocument,
-  AngularFirestoreCollection,
-  DocumentData
-} from "@angular/fire/compat/firestore";
 import {Reminder} from "../models/Reminder";
-import {AuthService} from "./auth.service";
+import {BehaviorSubject, Observable} from "rxjs";
+import {Storage} from "@ionic/storage-angular";
+import {generateUniqueID} from "../helpers/functions.helpers";
+
+const REMINDERS_KEY = 'REMINDERS';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReminderService {
 
+  private _storage: Storage | null = null;
+  private _reminders: BehaviorSubject<Reminder[]> = new BehaviorSubject<Reminder[]>([]);
+  public storedReminders: Observable<Reminder[]> = this._reminders.asObservable();
+
   constructor(
-    private afStore: AngularFirestore,
-    private authService: AuthService
-  ) {}
+    private storage: Storage
+  ) {
+    this.init();
+  }
 
+  async init() {
+    this._storage = await this.storage['create']();
+    this.retrieveReminders();
+  }
 
-  private get remindersPath(){
-    return `users/${this.authService.userData?.uid}/reminders`;
+  retrieveReminders(){
+    this._storage?.get(REMINDERS_KEY)
+      .then((data: Reminder[]) =>{
+        this._reminders.next(data ?? []);
+      });
   }
 
   createNewReminder(reminderData: Reminder){
-    return new Promise<{reminder: Reminder, userId: string}>((resolve, reject) =>{
-      if(!this.authService.isLoggedIn){
-        reject('UnAuthenticated user !');
-      }
-      const newReminderRef: AngularFirestoreDocument<Reminder> = this.afStore.collection(this.remindersPath).doc();
-      const newReminderData = {
+    return new Promise<Reminder>((resolve, reject) =>{
+      let temp = this._reminders.getValue();
+      temp.unshift({
         ...reminderData,
-        uid: newReminderRef.ref.id
-      }
-
-      newReminderRef.set(newReminderData)
+        uid: generateUniqueID()
+      });
+      this._storage?.set(REMINDERS_KEY, temp)
         .then((res) =>{
-        resolve({reminder: newReminderData, userId: this.authService.userData?.uid});
+          this.retrieveReminders();
+          resolve(temp[0]);
+        })
+        .catch((err) =>{
+          reject(err);
+        });
+    });
+  }
+
+  deleteAReminder(reminderUId: string){
+    return new Promise((resolve, reject) =>{
+      let temp = this._reminders.getValue();
+      temp = temp.filter((elt) => elt.uid !== reminderUId);
+      this._storage?.set(REMINDERS_KEY, temp).
+      then((res) =>{
+        this.retrieveReminders();
+        resolve(true);
       })
         .catch((err) =>{
           reject(err);
@@ -44,17 +66,19 @@ export class ReminderService {
     });
   }
 
-  async setAReminderStatusAsRead(reminderUId: string, userUId = this.authService.userData?.uid){
-    const reminderRef: AngularFirestoreDocument = this.afStore.collection(`users/${userUId}/reminders/${reminderUId}`).doc();
-    await reminderRef.set({
-      hasBeenRead: true
-    }, {
-      merge: true
+  async setAReminderStatusAsRead(reminderUId: string){
+    let temp = this._reminders.getValue();
+    temp.forEach((elt, index, array) =>{
+      if(elt.uid === reminderUId){
+        array[index] = {
+          ...elt,
+          hasBeenRead: true
+        }
+      }
     });
-  }
 
-  get remindersCollection(): any{
-    return this.afStore.collection(this.remindersPath);
+    this._storage?.set(REMINDERS_KEY, temp);
+    this.retrieveReminders();
   }
 
 }

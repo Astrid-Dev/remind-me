@@ -10,15 +10,15 @@ export class ShouldVerifyEmailGuard implements CanActivate{
 
   canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): boolean {
-    console.log(this.authState.isEmailVerified)
-    if(this.authState.isEmailVerified){
-      this.router.navigate(['/app/reminders']);
-      return false;
-    }
-    else if(this.authState.isEmailVerified === null){
-      this.router.navigate(['/login']);
-      return false;
-    }
+    // console.log(this.authState.isEmailVerified)
+    // if(this.authState.isEmailVerified){
+    //   this.router.navigate(['/app/reminders']);
+    //   return false;
+    // }
+    // else if(this.authState.isEmailVerified === null){
+    //   this.router.navigate(['/login']);
+    //   return false;
+    // }
 
     return true;
   }

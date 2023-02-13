@@ -8,28 +8,28 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./sidemenu/sidemenu.module').then( m => m.SidemenuPageModule),
-    canActivate: [ShouldBeSignedInGuard]
+    // canActivate: [ShouldBeSignedInGuard]
   },
-  {
-    path: 'welcome',
-    loadChildren: () => import('./pages/welcome/welcome.module').then( m => m.WelcomePageModule),
-    canActivate: [ShouldBeSignedOutGuard]
-  },
-  {
-    path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule),
-    canActivate: [ShouldBeSignedOutGuard]
-  },
-  {
-    path: 'register',
-    loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule),
-    canActivate: [ShouldBeSignedOutGuard]
-  },
-  {
-    path: 'verify-email',
-    loadChildren: () => import('./pages/verify-email/verify-email.module').then( m => m.VerifyEmailPageModule),
-    canActivate: [ShouldVerifyEmailGuard]
-  },
+  // {
+  //   path: 'welcome',
+  //   loadChildren: () => import('./pages/welcome/welcome.module').then( m => m.WelcomePageModule),
+  //   canActivate: [ShouldBeSignedOutGuard]
+  // },
+  // {
+  //   path: 'login',
+  //   loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule),
+  //   canActivate: [ShouldBeSignedOutGuard]
+  // },
+  // {
+  //   path: 'register',
+  //   loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule),
+  //   canActivate: [ShouldBeSignedOutGuard]
+  // },
+  // {
+  //   path: 'verify-email',
+  //   loadChildren: () => import('./pages/verify-email/verify-email.module').then( m => m.VerifyEmailPageModule),
+  //   canActivate: [ShouldVerifyEmailGuard]
+  // },
   {
     path: '**',
     pathMatch: 'full',

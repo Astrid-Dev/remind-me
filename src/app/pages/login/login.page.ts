@@ -57,74 +57,74 @@ export class LoginPage implements OnInit {
   }
 
   onFormSubmit(){
-    this.formIsSubmitted = true;
-
-    if(!this.loginForm.valid){
-      this.screenService.presentErrorToast('Formulaire invalide !');
-    }
-    else{
-      this.isProcessing = true;
-      this.authService.SignIn(this.formControls['email']?.value, this.formControls['password']?.value)
-        .then((res) =>{
-          console.log(res);
-          console.log(this.authService.isEmailVerified)
-          if(this.authService.isEmailVerified){
-            this.screenService.presentSuccessToast(`Salut, ${res.user?.displayName} ! Vous êtes désormais connecté(e) !`);
-            this.router.navigate(['/app/reminders']);
-          }
-          else{
-            this.screenService.presentWarningToast('Votre adresse email n\'est pas vérifiée !');
-          }
-        })
-        .catch((err) =>{
-          let msg;
-
-          switch(err.code){
-            case 'auth/wrong-password': {
-              msg = ('Identifiants incorrects !');
-              break;
-            }
-            case 'auth/user-not-found': {
-              msg = ('Identifiants incorrects !');
-              break;
-            }
-            case 'auth/invalid-email': {
-              msg = ('L\'adresse email est invalide ! Veuillez fournir une adresse valide et réessayer');
-              break;
-            }
-            case 'auth/network-request-failed': {
-              msg = ('Une erreur s\'est produite lors de la création de votre compte ! Vérifiez votre connexion internet et réessayez !');
-              break;
-            }
-            case 'auth/weak-password': {
-              msg = ('Le mot de passe fournit est faible !');
-              break;
-            }
-            default: {
-              msg = ('Une erreur s\'est produite lors de la connexion à votre compte ! Veuillez réessayer !');
-              break;
-            }
-          }
-
-          console.error(err);
-          this.screenService.presentErrorToast(msg);
-        })
-        .finally(() =>{
-          this.isProcessing = false
-        });
-    }
+    // this.formIsSubmitted = true;
+    //
+    // if(!this.loginForm.valid){
+    //   this.screenService.presentErrorToast('Formulaire invalide !');
+    // }
+    // else{
+    //   this.isProcessing = true;
+    //   this.authService.SignIn(this.formControls['email']?.value, this.formControls['password']?.value)
+    //     .then((res) =>{
+    //       console.log(res);
+    //       console.log(this.authService.isEmailVerified)
+    //       if(this.authService.isEmailVerified){
+    //         this.screenService.presentSuccessToast(`Salut, ${res.user?.displayName} ! Vous êtes désormais connecté(e) !`);
+    //         this.router.navigate(['/app/reminders']);
+    //       }
+    //       else{
+    //         this.screenService.presentWarningToast('Votre adresse email n\'est pas vérifiée !');
+    //       }
+    //     })
+    //     .catch((err) =>{
+    //       let msg;
+    //
+    //       switch(err.code){
+    //         case 'auth/wrong-password': {
+    //           msg = ('Identifiants incorrects !');
+    //           break;
+    //         }
+    //         case 'auth/user-not-found': {
+    //           msg = ('Identifiants incorrects !');
+    //           break;
+    //         }
+    //         case 'auth/invalid-email': {
+    //           msg = ('L\'adresse email est invalide ! Veuillez fournir une adresse valide et réessayer');
+    //           break;
+    //         }
+    //         case 'auth/network-request-failed': {
+    //           msg = ('Une erreur s\'est produite lors de la création de votre compte ! Vérifiez votre connexion internet et réessayez !');
+    //           break;
+    //         }
+    //         case 'auth/weak-password': {
+    //           msg = ('Le mot de passe fournit est faible !');
+    //           break;
+    //         }
+    //         default: {
+    //           msg = ('Une erreur s\'est produite lors de la connexion à votre compte ! Veuillez réessayer !');
+    //           break;
+    //         }
+    //       }
+    //
+    //       console.error(err);
+    //       this.screenService.presentErrorToast(msg);
+    //     })
+    //     .finally(() =>{
+    //       this.isProcessing = false
+    //     });
+    // }
   }
 
   loginWithGoogle(){
-    this.authService.GoogleAuth();
+    // this.authService.GoogleAuth();
   }
 
   loginWithFacebook(){
-    this.authService.FacebookAuth();
+    // this.authService.FacebookAuth();
   }
 
   loginWithTwitter(){
-    this.authService.TwitterAuth();
+    // this.authService.TwitterAuth();
   }
 
 }

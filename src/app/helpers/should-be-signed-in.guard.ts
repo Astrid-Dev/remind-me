@@ -10,10 +10,10 @@ export class ShouldBeSignedInGuard implements CanActivate{
 
   canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): boolean {
-    if(!this.authState.isLoggedIn){
-      this.router.navigate(['/welcome']);
-      return false;
-    }
+    // if(!this.authState.isLoggedIn){
+    //   this.router.navigate(['/welcome']);
+    //   return false;
+    // }
     return true;
   }
 }

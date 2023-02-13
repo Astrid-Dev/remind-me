@@ -52,67 +52,67 @@ export class RegisterPage implements OnInit {
   }
 
   onFormSubmit(){
-    this.formIsSubmitted = true;
-
-    if(!this.registerForm.valid){
-      this.screenService.presentErrorToast('Formulaire invalide !');
-    }
-    else{
-      this.isProcessing = true;
-      this.authService.RegisterUser(this.formControls['email']?.value, this.formControls['password']?.value)
-        .then((res) =>{
-          console.log(res);
-            this.authService.SendVerificationMail();
-            this.authService.UpdateUSerCredentials({
-              uid: res.user?.uid,
-              email: res.user?.email,
-              photoURL: res.user?.photoURL ?? null,
-              emailVerified: res.user?.emailVerified ?? false,
-              displayName: this.formControls['pseudo']?.value
-            });
-            this.screenService.presentSuccessToast('Votre compte a été créé avec succès ! Veuillez valider votre compte grace au lien qui vous a été envoyé par mail !');
-            this.router.navigate(['/verify-email']);
-        })
-        .catch((err) =>{
-          let msg;
-
-          switch(err.code){
-            case 'auth/email-already-in-use': {
-              msg = ('Cette adresse email est déjà utiliséé ! Veuillez fournir une autre adresse et réessayer');
-              break;
-            }
-            case 'auth/invalid-email': {
-              msg = ('L\'adresse email est invalide ! Veuillez fournir une adresse valide et réessayer');
-              break;
-            }
-            case 'auth/network-request-failed': {
-              msg = ('Une erreur s\'est produite lors de la création de votre compte ! Vérifiez votre connexion internet et réessayez !');
-              break;
-            }
-            default: {
-              msg = ('Une erreur s\'est produite lors de la création de votre compte ! Veuillez réessayer !');
-              break;
-            }
-          }
-
-          console.error(err);
-          this.screenService.presentErrorToast(msg);
-        })
-        .finally(() =>{
-          this.isProcessing = false
-        });
-    }
+    // this.formIsSubmitted = true;
+    //
+    // if(!this.registerForm.valid){
+    //   this.screenService.presentErrorToast('Formulaire invalide !');
+    // }
+    // else{
+    //   this.isProcessing = true;
+    //   this.authService.RegisterUser(this.formControls['email']?.value, this.formControls['password']?.value)
+    //     .then((res) =>{
+    //       console.log(res);
+    //         this.authService.SendVerificationMail();
+    //         this.authService.UpdateUSerCredentials({
+    //           uid: res.user?.uid,
+    //           email: res.user?.email,
+    //           photoURL: res.user?.photoURL ?? null,
+    //           emailVerified: res.user?.emailVerified ?? false,
+    //           displayName: this.formControls['pseudo']?.value
+    //         });
+    //         this.screenService.presentSuccessToast('Votre compte a été créé avec succès ! Veuillez valider votre compte grace au lien qui vous a été envoyé par mail !');
+    //         this.router.navigate(['/verify-email']);
+    //     })
+    //     .catch((err) =>{
+    //       let msg;
+    //
+    //       switch(err.code){
+    //         case 'auth/email-already-in-use': {
+    //           msg = ('Cette adresse email est déjà utiliséé ! Veuillez fournir une autre adresse et réessayer');
+    //           break;
+    //         }
+    //         case 'auth/invalid-email': {
+    //           msg = ('L\'adresse email est invalide ! Veuillez fournir une adresse valide et réessayer');
+    //           break;
+    //         }
+    //         case 'auth/network-request-failed': {
+    //           msg = ('Une erreur s\'est produite lors de la création de votre compte ! Vérifiez votre connexion internet et réessayez !');
+    //           break;
+    //         }
+    //         default: {
+    //           msg = ('Une erreur s\'est produite lors de la création de votre compte ! Veuillez réessayer !');
+    //           break;
+    //         }
+    //       }
+    //
+    //       console.error(err);
+    //       this.screenService.presentErrorToast(msg);
+    //     })
+    //     .finally(() =>{
+    //       this.isProcessing = false
+    //     });
+    // }
   }
 
   registerWithGoogle(){
-    this.authService.GoogleAuth();
+    // this.authService.GoogleAuth();
   }
 
   registerWithFacebook(){
-    this.authService.FacebookAuth();
+    // this.authService.FacebookAuth();
   }
 
   registerWithTwitter(){
-    this.authService.TwitterAuth();
+    // this.authService.TwitterAuth();
   }
 }

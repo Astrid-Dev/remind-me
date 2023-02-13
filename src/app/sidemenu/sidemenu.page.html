@@ -1,7 +1,7 @@
 <ion-split-pane contentId="content">
   <ion-menu contentId="content" side="start" #menu>
     <ion-backdrop *ngIf="isLoggingOut"></ion-backdrop>
-    <ion-content class="ion-padding">
+    <ion-content class="ion-padding" *ngIf="userData">
       <div class="top-content">
         <ion-item mode="ios">
           <div class="user-details">

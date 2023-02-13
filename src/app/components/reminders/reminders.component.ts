@@ -3,6 +3,7 @@ import {Reminder, ReminderCategories, ReminderPriorities, RemindersGroup} from "
 import {ReminderService} from "../../services/reminder.service";
 import {collectionData} from "@angular/fire/firestore";
 import {getCategoryColor, getCategoryLabel, getPriorityLabel, printReminderDay} from "../../helpers/functions.helpers";
+import {ScreenService} from "../../services/screen.service";
 
 @Component({
   selector: 'app-reminders',
@@ -23,7 +24,8 @@ export class RemindersComponent implements OnInit {
   hasLoadedDataForTheFirstTime: boolean = false;
 
   constructor(
-    private reminderService: ReminderService
+    private reminderService: ReminderService,
+    private screenService: ScreenService
   ) {}
 
   getCategoryColor(category: ReminderCategories){
@@ -46,17 +48,14 @@ export class RemindersComponent implements OnInit {
   }
 
   ngOnInit() {
-    setTimeout(() =>{
-      collectionData(this.reminderService.remindersCollection.ref)
-        .subscribe((data: any) =>{
-          if(!this.hasLoadedDataForTheFirstTime){
-            this.hasLoadedDataForTheFirstTime = true;
-          }
-          this.allReminders = data;
-          console.log(this.allReminders);
-          this.setRemindersGroups();
-        })
-    }, 2000);
+    this.reminderService.storedReminders.subscribe((data) =>{
+      if(!this.hasLoadedDataForTheFirstTime){
+        this.hasLoadedDataForTheFirstTime = true;
+      }
+      this.allReminders = data;
+      console.log(this.allReminders);
+      this.setRemindersGroups();
+    })
   }
 
   onStateChange(newState: any){
@@ -67,10 +66,12 @@ export class RemindersComponent implements OnInit {
   setRemindersGroups(){
     let data = [];
     if(this.selectedState === 'read'){
-      data = this.allReminders.filter(elt => elt.hasBeenRead).sort((a, b) => (b.date - a.date));
+      const today = new Date();
+      data = this.allReminders.filter(elt => (elt.hasBeenRead && elt.date < today.getTime())).sort((a, b) => (b.date - a.date));
     }
     else if(this.selectedState === 'missed'){
-      data = this.allReminders.filter(elt => !elt.hasBeenRead).sort((a, b) => (b.date - a.date));
+      const today = new Date();
+      data = this.allReminders.filter(elt => (!elt.hasBeenRead && elt.date < today.getTime())).sort((a, b) => (b.date - a.date));
     }
     else{
       data = this.allReminders.filter((elt) =>{
@@ -122,6 +123,32 @@ export class RemindersComponent implements OnInit {
   viewReminderDetails(reminder: Reminder){
     this.selectedReminder = reminder;
     this.reminderDetailsModalIsOpen = true;
+  }
+
+  deleteReminder(reminderUId: any){
+    this.screenService.presentAlert({
+      mode: "ios",
+      message: "Confirmez-vous la suppression de ce rappel ?",
+      buttons: [
+        {
+          text: 'Non',
+          role: 'cancel'
+        },
+        {
+          text: 'Oui',
+          handler: () =>{
+            this.reminderService.deleteAReminder(reminderUId)
+              .then((res) =>{
+                this.screenService.presentSuccessToast(`Le rappel a été supprimé avec succès !`);
+
+              })
+              .catch((err) =>{
+                this.screenService.presentErrorToast('Une erreur s\'est produite lors de la suppression du rappel ! Veuillez réessayer !');
+              });
+          }
+        }
+      ]
+    });
   }
 
 }

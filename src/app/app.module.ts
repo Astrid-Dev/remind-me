@@ -9,12 +9,13 @@ import { AppRoutingModule } from './app-routing.module';
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {HttpLoaderFactory, SharedModule} from "./helpers/shared.module";
 import {HttpClient} from "@angular/common/http";
-import {AngularFireModule} from "@angular/fire/compat";
-import {environment} from "../environments/environment";
-import {AngularFireAuthModule} from "@angular/fire/compat/auth";
-import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
-import {AngularFireStorageModule} from "@angular/fire/compat/storage";
-import {AngularFireDatabaseModule} from "@angular/fire/compat/database";
+import {IonicStorageModule} from "@ionic/storage-angular";
+// import {AngularFireModule} from "@angular/fire/compat";
+// import {environment} from "../environments/environment";
+// import {AngularFireAuthModule} from "@angular/fire/compat/auth";
+// import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
+// import {AngularFireStorageModule} from "@angular/fire/compat/storage";
+// import {AngularFireDatabaseModule} from "@angular/fire/compat/database";
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,12 +29,13 @@ import {AngularFireDatabaseModule} from "@angular/fire/compat/database";
       isolate : false
     }),
     SharedModule.forRoot(),
+    IonicStorageModule.forRoot(),
 
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireAuthModule,
-    AngularFirestoreModule,
-    AngularFireStorageModule,
-    AngularFireDatabaseModule,
+    // AngularFireModule.initializeApp(environment.firebaseConfig),
+    // AngularFireAuthModule,
+    // AngularFirestoreModule,
+    // AngularFireStorageModule,
+    // AngularFireDatabaseModule,
 
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],

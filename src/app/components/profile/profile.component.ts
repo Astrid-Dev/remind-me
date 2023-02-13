@@ -83,52 +83,52 @@ export class ProfileComponent implements OnInit {
   }
 
   onProfileFormSubmit(){
-    this.editProfileFormIsSubmitted = true;
-
-    if(!this.editProfileForm.valid){
-      this.screenService.presentErrorToast('Formulaire invalide');
-      return;
-    }
-
-    this.isProcessing = true;
-    this.authService.UpdateUSerCredentials({
-      displayName: this.editProfileFormControls['username']?.value,
-      email: this.editProfileFormControls['email']?.value
-    })
-      .then((res) =>{
-        this.screenService.presentSuccessToast('Votre profile été modifié avec succès');
-      })
-      .catch((err) =>{
-        console.error(err);
-        this.screenService.presentErrorToast('Une erreur s\'est produite lors la modification de votre profile ! Veuillez réessayer !');
-      })
-      .finally(() =>{
-        this.isProcessing = false;
-      });
+    // this.editProfileFormIsSubmitted = true;
+    //
+    // if(!this.editProfileForm.valid){
+    //   this.screenService.presentErrorToast('Formulaire invalide');
+    //   return;
+    // }
+    //
+    // this.isProcessing = true;
+    // this.authService.UpdateUSerCredentials({
+    //   displayName: this.editProfileFormControls['username']?.value,
+    //   email: this.editProfileFormControls['email']?.value
+    // })
+    //   .then((res) =>{
+    //     this.screenService.presentSuccessToast('Votre profile été modifié avec succès');
+    //   })
+    //   .catch((err) =>{
+    //     console.error(err);
+    //     this.screenService.presentErrorToast('Une erreur s\'est produite lors la modification de votre profile ! Veuillez réessayer !');
+    //   })
+    //   .finally(() =>{
+    //     this.isProcessing = false;
+    //   });
   }
 
   onPasswordFormSubmit(){
-    this.updatePasswordFormIsSubmitted = true;
-
-    if(!this.updatePasswordForm.valid){
-      this.screenService.presentErrorToast('Formulaire invalide');
-      return;
-    }
-
-    this.isProcessing = true;
-    this.authService.UpdateUSerCredentials({
-      password: this.updatePasswordFormControls['newPassword']?.value,
-    })
-      .then((res) =>{
-        this.screenService.presentSuccessToast('Votre mot de passe été modifié avec succès');
-      })
-      .catch((err) =>{
-        console.error(err);
-        this.screenService.presentErrorToast('Une erreur s\'est produite lors la modification de votre mot de passe ! Veuillez réessayer !');
-      })
-      .finally(() =>{
-        this.isProcessing = false;
-      });
+    // this.updatePasswordFormIsSubmitted = true;
+    //
+    // if(!this.updatePasswordForm.valid){
+    //   this.screenService.presentErrorToast('Formulaire invalide');
+    //   return;
+    // }
+    //
+    // this.isProcessing = true;
+    // this.authService.UpdateUSerCredentials({
+    //   password: this.updatePasswordFormControls['newPassword']?.value,
+    // })
+    //   .then((res) =>{
+    //     this.screenService.presentSuccessToast('Votre mot de passe été modifié avec succès');
+    //   })
+    //   .catch((err) =>{
+    //     console.error(err);
+    //     this.screenService.presentErrorToast('Une erreur s\'est produite lors la modification de votre mot de passe ! Veuillez réessayer !');
+    //   })
+    //   .finally(() =>{
+    //     this.isProcessing = false;
+    //   });
   }
 
 }

@@ -20,18 +20,18 @@ export class VerifyEmailPage implements OnInit {
   }
 
   resendEmailVerification(){
-    this.isProcessing = true;
-    this.authService.SendVerificationMail()
-      .then((res) =>{
-        this.screenService.presentSuccessToast('L\'email vous a été renvoyé avec succès !');
-      })
-      .catch((err) =>{
-        console.error(err);
-        this.screenService.presentErrorToast('Une erreur s\'est produite lors du renvoie de l\'email ! Veuillez réessayer !');
-      })
-      .finally(() =>{
-        this.isProcessing = false;
-      });
+    // this.isProcessing = true;
+    // this.authService.SendVerificationMail()
+    //   .then((res) =>{
+    //     this.screenService.presentSuccessToast('L\'email vous a été renvoyé avec succès !');
+    //   })
+    //   .catch((err) =>{
+    //     console.error(err);
+    //     this.screenService.presentErrorToast('Une erreur s\'est produite lors du renvoie de l\'email ! Veuillez réessayer !');
+    //   })
+    //   .finally(() =>{
+    //     this.isProcessing = false;
+    //   });
   }
 
 }

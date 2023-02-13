@@ -3,6 +3,7 @@ import {getCategoryColor, getDayNameByDayNumber, getMonthNameByMonthNumber, prin
 import {Reminder, ReminderCategories, ReminderPriorities} from "../../models/Reminder";
 import {ReminderService} from "../../services/reminder.service";
 import {collectionData} from "@angular/fire/firestore";
+import {ScreenService} from "../../services/screen.service";
 
 const ONE_DAY = 24*60*60*1000;
 
@@ -24,7 +25,10 @@ export class CalendarComponent implements OnInit {
 
   hasLoadedData: boolean = false;
 
-  constructor(private reminderService: ReminderService) { }
+  constructor(
+    private reminderService: ReminderService,
+    private screenService: ScreenService
+  ) { }
 
   get currentMonth(){
     return new Date().getMonth();
@@ -85,17 +89,14 @@ export class CalendarComponent implements OnInit {
     this.selectedMonth = this.currentMonth;
     this.selectedDate = new Date().getDate();
     this.setDates();
-    setTimeout(() =>{
-      collectionData(this.reminderService.remindersCollection.ref)
-        .subscribe((data: any) =>{
-          if(!this.hasLoadedData){
-            this.hasLoadedData = true;
-          }
-          this.allReminders = data;
-          console.log(this.allReminders);
-          this.setRemindersToDisplay();
-        })
-    }, 2000);
+    this.reminderService.storedReminders.subscribe((data) =>{
+      if(!this.hasLoadedData){
+        this.hasLoadedData = true;
+      }
+      this.allReminders = data;
+      console.log(this.allReminders);
+      this.setRemindersToDisplay();
+    });
   }
 
   setDates(){
@@ -167,6 +168,32 @@ export class CalendarComponent implements OnInit {
   viewReminderDetails(reminder: Reminder){
     this.selectedReminder = reminder;
     this.reminderDetailsModalIsOpen = true;
+  }
+
+  deleteReminder(reminderUId: any){
+    this.screenService.presentAlert({
+      mode: "ios",
+      message: "Confirmez-vous la suppression de ce rappel ?",
+      buttons: [
+        {
+          text: 'Non',
+          role: 'cancel'
+        },
+        {
+          text: 'Oui',
+          handler: () =>{
+            this.reminderService.deleteAReminder(reminderUId)
+              .then((res) =>{
+                this.screenService.presentSuccessToast(`Le rappel a été supprimé avec succès !`);
+
+              })
+              .catch((err) =>{
+                this.screenService.presentErrorToast('Une erreur s\'est produite lors de la suppression du rappel ! Veuillez réessayer !');
+              });
+          }
+        }
+      ]
+    });
   }
 
 }

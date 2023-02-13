@@ -8,5 +8,8 @@ import {SettingsService} from "./services/settings.service";
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor(private notificationService: NotificationService, private settingsService: SettingsService) {}
+  constructor(
+    private notificationService: NotificationService,
+    private settingsService: SettingsService,
+  ) {}
 }
